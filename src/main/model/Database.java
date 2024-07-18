@@ -7,10 +7,11 @@ public class Database {
     private ArrayList<Recipe> allrecipes;
     private ArrayList<Recipe> userrecipes;
     private ArrayList<UserCollection> collections;
-    Recipe bananabread;
-    Recipe sugarcookie;
-    // TODO: make this private or public...
+    private Recipe bananabread;
+    private Recipe sugarcookie;
 
+    // EFFECTS: Constructs a database with recipes loaded in and empty user recipes
+    //          and empty collections
     public Database() {
         addBananaBread();
         addSugarCookie();
@@ -23,12 +24,11 @@ public class Database {
         collections = new ArrayList<UserCollection>();
     }
 
-    public void addBananaBread() {
-        bananabread = new Recipe();
-        bananabread.setTitle("Banana Bread");
-        bananabread.setAuthor("Chrissy Teigen");
-        bananabread.setCookTime(60);
-        // TODO: change rating
+    // MODIFIES: this
+    // EFFECTS: adds the hard-coded recipe of Chrissy Teigen's Banana Bread
+    private void addBananaBread() {
+        bananabread = new Recipe("Banana Bread", "Chrissy Teigen", 60);
+        bananabread.addReccomend(true);
         bananabread.addIngredient("Banana");
         bananabread.addIngredient("Egg");
         bananabread.addIngredient("Sugar");
@@ -49,11 +49,10 @@ public class Database {
         bananabread.addDirection("Let it cool and enjoy!");
     }
 
-    public void addSugarCookie() {
-        sugarcookie = new Recipe();
-        sugarcookie.setTitle("Easy Sugar Cookies");
-        sugarcookie.setAuthor("Bellyfull");
-        sugarcookie.setCookTime(15);
+    // MODIFIES: this
+    // EFFECTS: adds the hard-coded recipe of Bellyful's Sugar Cookies
+    private void addSugarCookie() {
+        sugarcookie = new Recipe("Easy Sugar Cookies", "Bellyfull", 15);
         sugarcookie.addIngredient("Butter");
         sugarcookie.addIngredient("Sugar");
         sugarcookie.addIngredient("Flour");
@@ -69,10 +68,13 @@ public class Database {
         sugarcookie.addDirection("Enjoy!");
     }
 
+    // EFFECTS: gets all the recipes in the database
     public ArrayList<Recipe> getRecipeDatabase() {
         return allrecipes;
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds a user recipe to the database
     public void addUserRecipeDatabase(Recipe recipe) {
         if (!userrecipes.contains(recipe) && !allrecipes.contains(recipe)) {
             this.userrecipes.add(recipe);
@@ -80,18 +82,25 @@ public class Database {
         }
     }
 
+    // EFFECTS: returns the recipes in the database
     public ArrayList<Recipe> getUserRecipeDatabase() {
         return userrecipes;
     }
 
+    // MODIFIES: this
+    // EFFECTS: removes a user-created recipe from the database
     public void removeUserRecipeDatabase(Recipe recipe) {
         this.userrecipes.remove(recipe);
     }
 
+    // MODIFIES: this
+    // EFFECTS: removes all user-created recipes and collection from the database
     public void resetDatabase() {
         this.userrecipes = new ArrayList<Recipe>();
     }
 
+    // MODIFIES: this
+    // EFFECTS: returns list of recipes that contain inputted ingredient
     public ArrayList<Recipe> searchByIngredient(String ingredient) {
         ArrayList<Recipe> matches = new ArrayList<Recipe>();
         for (Recipe r: allrecipes) {
@@ -104,7 +113,7 @@ public class Database {
         return matches;
     }
 
-    //REQUIRES RECIPE TO NOT BE EMPTY
+    // EFFECTS: finds the recipe with the highest rating in the database
     public Recipe findTopRecipe() {
         double rating = 0;
         Recipe recipe = allrecipes.get(0);
@@ -116,23 +125,22 @@ public class Database {
         }
         return recipe;
     }
-    
-    // TODO: add specifications to literally everything
-    public void createNewUserCollection() {
-        UserCollection createnew = new UserCollection();
-        addToExistingUserCollection(createnew);
-    }
 
+    // EFFECTS: returns all the user collections in the database
     public ArrayList<UserCollection> viewAllUserCollection() {
         return collections;
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds a new collection
     public void addToExistingUserCollection(UserCollection collection) {
         if (!collections.contains(collection)) {
             collections.add(collection);
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: removes collection from the existing user collections
     public void removeFromExistingUserCollection(UserCollection collection) {
         collections.remove(collection);
     }

@@ -1,5 +1,7 @@
 package model;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -16,8 +18,8 @@ public class TestUserCollection {
     void runBefore() {
         mycollection = new UserCollection();
         newcollection = new UserCollection();
-        bananabread = new Recipe();
-        tomatopasta = new Recipe();
+        bananabread = new Recipe("Banana Bread", "Chrissy Teigen", 60);
+        tomatopasta = new Recipe("Tomato Pasta", "Author", 20);
     }
 
     @Test
@@ -41,12 +43,6 @@ public class TestUserCollection {
     }
 
     @Test
-    void testsetThumbnail() {
-        //STUB
-        // TODO: test thumbnail
-    }
-
-    @Test
     void testsetDescription() {
         mycollection.setDescription("Here are some of the best desserts.");
         assertEquals("Here are some of the best desserts.", mycollection.getDescription());
@@ -57,18 +53,53 @@ public class TestUserCollection {
     }
 
     @Test
-    void testaddRecipe() {
-        mycollection.addRecipe(bananabread);
-        mycollection.addRecipe(tomatopasta);
+    void testAddandRemoveRecipe() {
+        boolean success;
+        success = mycollection.addRecipe(bananabread);
+        assertTrue(success);
+        success = mycollection.addRecipe(tomatopasta);
+        assertTrue(success);
         assertEquals(bananabread, mycollection.getRecipes().get(0));
         assertEquals(tomatopasta, mycollection.getRecipes().get(1));
         assertEquals(2, mycollection.getRecipes().size());
-        newcollection.addRecipe(tomatopasta);
-        newcollection.addRecipe(bananabread);
-        newcollection.addRecipe(tomatopasta);
+
+
+
+        success = newcollection.addRecipe(tomatopasta);
+        assertTrue(success);
+        success = newcollection.addRecipe(bananabread);
+        assertTrue(success);
+        success = newcollection.addRecipe(tomatopasta);
+        assertFalse(success);
         assertEquals(tomatopasta, newcollection.getRecipes().get(0));
         assertEquals(bananabread, newcollection.getRecipes().get(1));
         assertEquals(2, newcollection.getRecipes().size());
+    }
+
+    @Test
+    void testremoveRecipe() {
+        boolean success;
+        mycollection.addRecipe(bananabread);
+        mycollection.addRecipe(tomatopasta);
+
+        success = mycollection.removeRecipe(bananabread);
+        assertTrue(success);
+        assertEquals(tomatopasta, mycollection.getRecipes().get(0));
+        success = mycollection.removeRecipe(bananabread);
+        assertFalse(success);
+        assertEquals(tomatopasta, mycollection.getRecipes().get(0));
+        assertEquals(1, mycollection.getRecipes().size());
+
+        newcollection.addRecipe(tomatopasta);
+        newcollection.addRecipe(bananabread);
+        newcollection.addRecipe(tomatopasta);
+
+        success = newcollection. removeRecipe(tomatopasta);
+        assertTrue(success);
+        success = newcollection. removeRecipe(bananabread);
+        assertTrue(success);
+        assertEquals(0, newcollection.getRecipes().size());
+
     }
 
     @Test

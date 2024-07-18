@@ -15,8 +15,8 @@ public class TestRecipe {
 
     @BeforeEach
     void runBefore() {
-        r1 = new Recipe();
-        r2 = new Recipe();
+        r1 = new Recipe("Banana Bread", "Chrissy Teigen", 60);
+        r2 = new Recipe("Easy Sugar Cookies", "Bellyfull", 15);
     }
 
     @Test
@@ -109,11 +109,11 @@ public class TestRecipe {
     @Test
     void addCommentTest() {
         r1.addComment("Nice recipe!");
-        assertEquals("Nice recipe!", r1.getComment().get(0));
+        assertEquals("Nice recipe!", r1.getComments().get(0));
         r1.addComment("It's alright.");
-        assertEquals("It's alright.", r1.getComment().get(1));
+        assertEquals("It's alright.", r1.getComments().get(1));
         r2.addComment("I don't like it.");
-        assertEquals("I don't like it.", r2.getComment().get(0));
+        assertEquals("I don't like it.", r2.getComments().get(0));
     }
 
     @Test

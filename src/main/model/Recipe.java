@@ -13,10 +13,12 @@ public class Recipe {
     private int totalRaters;
 
 
-    // EFFECTS: Constructs a recipe with the name of the respective author, title and cook-time,
-    // with a starting rating of zero and no comments so far. Ingredients and directions are also
-    // empty.
-    public Recipe() {
+    // EFFECTS: Constructs a recipe with the inputted title, author and cookTime,
+    //          along with no comments, ingredients, directions or rating
+    public Recipe(String title, String author, int cookTime) {
+        this.title = title;
+        this.author = author;
+        this.cookTime = cookTime;
         recommends = 0;
         totalRaters = 0;
         comments = new ArrayList<String>();
@@ -24,18 +26,24 @@ public class Recipe {
         directions = new ArrayList<String>();
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets the title of the recipe to inputted value
     public void setTitle(String title) {
         this.title = title;
     }
 
+    // EFFECTS: returns the title of the recipe
     public String getTitle() {
         return title;
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets the author of the recipe to inputted value
     public void setAuthor(String author) {
         this.author = author;
     }
 
+    // EFFECTS: returns the author of the recipe
     public String getAuthor() {
         return author;
     }
@@ -47,6 +55,7 @@ public class Recipe {
         this.cookTime = cookTime;
     }
 
+    // EFFECTS: returns the cook-time of the recipe in minutes
     public int getCookTime() {
         return cookTime;
     }
@@ -61,6 +70,7 @@ public class Recipe {
         this.totalRaters++;
     }
 
+    // EFFECTS: returns the number of raters that recommend the dish
     public double getRecommends() {
         return recommends;
     }
@@ -79,36 +89,43 @@ public class Recipe {
         return totalRaters;
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds a comment to the recipe
     public void addComment(String comment) {
         this.comments.add(comment);
     }
 
-    public ArrayList<String> getComment() {
+    // EFFECTS: returns the comments of the recipe
+    public ArrayList<String> getComments() {
         return comments;
     }
 
     // MODIFIES: this
-    // EFFECTS: adds inputted ingredient onto recipe's list of ingredients
+    // EFFECTS: adds inputted ingredient onto recipe's list of ingredients if
+    //          recipe does not already contain it
     public void addIngredient(String ingredient) {
         if (!ingredients.contains(ingredient)) {
             ingredients.add(ingredient);
         }
     }
 
+    // EFFECTS: returns the ingredients of the recipe
     public ArrayList<String> getIngredients() {
         return ingredients;
     }
 
+    // EFFECTS: returns true if the recipe contains the specific ingredient
     public boolean getSpecificIngredient(String ingredient) {
         return ingredients.contains(ingredient);
     }
     
     // MODIFIES: this
-    // adds direction to the recipe
+    // EFFECTS: adds direction to the recipe
     public void addDirection(String direction) {
         directions.add(direction);
     }
 
+    // EFFECTS: get directions of the recipe
     public ArrayList<String> getDirections() {
         return directions;
     }
