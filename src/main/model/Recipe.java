@@ -2,6 +2,8 @@ package model;
 
 import java.util.ArrayList;
 
+// A class that represents a recipe with a title, author, cook-time,
+// ingredients, directions, ratings and comments
 public class Recipe {
     private String author;
     private String title;

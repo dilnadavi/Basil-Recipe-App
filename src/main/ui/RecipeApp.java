@@ -7,8 +7,9 @@ import model.Database;
 import model.Recipe;
 import model.UserCollection;
 
-// Recipe application
-// Scanner and menu behaviour is studied from UBC CPSC210's Teller App
+// Recipe application that allows user to search for recipes by ingredient, add recipes
+// to collections and add their own recipes.
+// REFERENCE: Scanner and menu behaviour is studied/referenced from UBC CPSC210's Teller App
 public class RecipeApp {
 
     private Scanner userinput;
@@ -82,6 +83,7 @@ public class RecipeApp {
     // EFFECTS: Prints a message when the user input does not correspond
     //          to presented options
     public void wrongKey() {
+        createDivider();
         System.out.println("Sorry, you pressed an invalid key.");
         returnToMenu();
     }
@@ -91,6 +93,7 @@ public class RecipeApp {
     //          contain the ingredient in the database, presenting further 
     //          user options
     public void searchWithIngredient() {
+        createDivider();
         System.out.println("Please enter the ingredient of interest.");
         String input = this.userinput.nextLine();
         ArrayList<Recipe> matches = database.searchByIngredient(input);
@@ -100,6 +103,7 @@ public class RecipeApp {
             input = this.userinput.nextLine();
             recipesMenuSelection(input, matches);
         } else {
+            createDivider();
             System.out.println("Sorry, no matches found.");
             returnToMenu();
         }
@@ -110,13 +114,14 @@ public class RecipeApp {
     //          presents options for interaction
     public void browseTop() {
         Recipe toprecipe = database.findTopRecipe();
-        System.out.println("The top recipe is" + toprecipe.getTitle() + "by" + toprecipe.getAuthor() + "!");
+        createDivider();
+        System.out.println("The top recipe is " + toprecipe.getTitle() + " by " + toprecipe.getAuthor() + "!");
         recipePreview(toprecipe);
         System.out.println("\t(V) View Full Recipe");
         System.out.println("\t(Q) Back to Menu");
         String input = genericLowercaseInput();
         if (input.equals("v")) {
-            recipeFullView(toprecipe);
+            recipeSelection(toprecipe);
         } else if (input.equals("q")) {
             menu();
         } else {
@@ -142,7 +147,7 @@ public class RecipeApp {
         addDirectionsToRecipe(recipe);
 
         database.addUserRecipeDatabase(recipe);
-
+        createDivider();
         System.out.println("Your recipe has been sucessfully created!");
         System.out.println("(V) View Recipe");
         System.out.println("(B) Back to Menu");
@@ -171,13 +176,16 @@ public class RecipeApp {
     public void viewCollections() {
         ArrayList<UserCollection> all = database.viewAllUserCollection();
         if (all.size() == 0) {
+            createDivider();
             System.out.println("No collections made yet.");
             returnToMenu();
         } else {
+            createDivider();
             System.out.println("Choose which collection to view:");
+            createDivider();
             int index = 0;
             for (UserCollection uc: all) {
-                System.out.println("(" + Integer.toString(index) + ")" + uc.getTitle());
+                System.out.println("(" + Integer.toString(index) + ") " + uc.getTitle());
                 System.out.println(uc.getDescription());
                 createDivider();
                 index++;
@@ -197,6 +205,7 @@ public class RecipeApp {
             System.out.println("No recipes in this collection.");
             returnToMenu();
         } else {
+            createDivider();
             System.out.println("\n" + uc.getTitle());
             System.out.println("\n" + uc.getDescription());
             for (Recipe recipe: uc.getRecipes()) {
@@ -221,6 +230,7 @@ public class RecipeApp {
     // EFFECTS: removes all the recipe entries from the provided UserCollection
     public void resetCollection(UserCollection uc) {
         uc.resetCollection();
+        createDivider();
         System.out.println("All recipes removed from collection.");
         returnToMenu();
     }
@@ -237,7 +247,9 @@ public class RecipeApp {
     // EFFECTS: prompts user for input and removes or deletes a recipe from
     //          a collection or returns to main menu based on input.
     public void recipeModification(String firstinput, UserCollection uc) {
+        createDivider();
         System.out.println("Choose a recipe:");
+        createDivider();
         int index = 0;
         for (Recipe recipe: uc.getRecipes()) {
             System.out.println("\t(" + Integer.toString(index) + ") " + recipe.getTitle());
@@ -253,7 +265,7 @@ public class RecipeApp {
             if (firstinput.equals("r")) {
                 removeRecipeOption(uc, chosen);
             } else if (firstinput.equals("v")) {
-                recipeFullView(chosen);
+                recipeSelection(chosen);
             } else {
                 wrongKey();
             }
@@ -265,9 +277,11 @@ public class RecipeApp {
     public void removeRecipeOption(UserCollection uc, Recipe chosen) {
         boolean success = uc.removeRecipe(chosen);
         if (success) {
+            createDivider();
             System.out.println("Recipe successfully removed.");
             returnToMenu();
         } else {
+            createDivider();
             System.out.println("Chosen recipe does not exist.");
             returnToMenu();
         }
@@ -279,6 +293,7 @@ public class RecipeApp {
     public void viewUserRecipes() {
         ArrayList<Recipe> all = database.getUserRecipeDatabase();
         if (all.size() == 0) {
+            createDivider();
             System.out.println("No user recipes have been created.");
             returnToMenu();
         } else {
@@ -302,7 +317,9 @@ public class RecipeApp {
         int index = 0;
         for (Recipe recipe: recipes) {
             System.out.println("\t(" + Integer.toString(index) + ") " + recipe.getTitle());
+            createDivider();
             recipePreview(recipe);
+            createDivider();
             index++;
         }
         System.out.println("(Q) Return to Menu");
@@ -313,6 +330,7 @@ public class RecipeApp {
             int val = Integer.valueOf(input);
             Recipe chosen = recipes.get(val);
             database.removeUserRecipeDatabase(chosen);
+            createDivider();
             System.out.println("Recipe sucessfully removed.");
             returnToMenu();
         }
@@ -322,6 +340,7 @@ public class RecipeApp {
     // EFFECTS: prompts user for listed ingredients, and adds the ingredients to
     //          the recipe, with splitting based on ','
     public void addIngredientsToRecipe(Recipe recipe) {
+        createDivider();
         System.out.println("Please type the name of all your ingredients, separated by commas:");
         String input = this.userinput.nextLine();
         String[] arrOfIngredient = input.split(",");
@@ -334,6 +353,7 @@ public class RecipeApp {
     // EFFECTS: prompts user for listed directions, and adds the directions to
     //          the recipe, with splitting based on ':'
     public void addDirectionsToRecipe(Recipe recipe) {
+        createDivider();
         System.out.println("Please type the directions and use ':' to separate each step.");
         String input = this.userinput.nextLine();
         String[] arrOfDirections = input.split(":");
@@ -347,7 +367,9 @@ public class RecipeApp {
     //          the listed recipes or return to menu
     public void recipesMenuSelection(String input, ArrayList<Recipe> recipes) {
         if (recipes.size() == 0) {
+            createDivider();
             System.out.println("There are currently no recipes.");
+            returnToMenu();
         } else {
             if (input.equals("q")) {
                 menu();
@@ -391,6 +413,7 @@ public class RecipeApp {
     //          updates and presents the rating of recipe based on user decisions
     public void addRating(Recipe recipe) {
         System.out.println("Would you recommend this recipe?");
+        createDivider();
         System.out.println("(Y) Yes.");
         System.out.println("(N) No.");
         String input = this.userinput.nextLine();
@@ -402,6 +425,7 @@ public class RecipeApp {
         } else {
             wrongKey();
         }
+        createDivider();
         System.out.println("The recipe's rating is now " + Double.toString(recipe.getRating()) + "%");
         returnToMenu();
         
@@ -411,6 +435,7 @@ public class RecipeApp {
     // EFFECTS: presents the user with option to add a comment and presents
     //          all comments on recipe based on user decisions
     public void addComment(Recipe recipe) {
+        createDivider();
         System.out.println("Please type your comment below:");
         String input = this.userinput.nextLine();
         recipe.addComment(input);
@@ -422,10 +447,13 @@ public class RecipeApp {
     //          options of interaction
     public void viewAllComments(Recipe recipe) {
         if (recipe.getComments().size() == 0) {
+            createDivider();
             System.out.println("No comments yet.");
             addCommentMenu(recipe);
         } else {
+            createDivider();
             System.out.println("All comments on this recipe:");
+            createDivider();
             ArrayList<String> comments = recipe.getComments();
             for (String comment: comments) {
                 System.out.println("Anonymous user commented: " + "'" + comment + "'");
@@ -438,6 +466,7 @@ public class RecipeApp {
     // EFFECTS: prompts user with option of adding a comment or returning to menu
     //          and performs respective task
     public void addCommentMenu(Recipe recipe) {
+        createDivider();
         System.out.println("(A) Add a comment.");
         System.out.println("(Q) Back to Menu.");
         String input = genericLowercaseInput();
@@ -492,9 +521,11 @@ public class RecipeApp {
     // EFFECTS: Prompts user to add the recipe to a new collection, an existing
     //          collection, or to go back to menu. Performs chosen task
     public void addToCollection(Recipe recipe) {
+        createDivider();
         System.out.println("(N) Add to New Collection");
         System.out.println("(A) Add to Existing Collection");
         System.out.println("(Q) Back to Main Menu");
+        createDivider();
         String input = this.userinput.nextLine();
         input = input.toLowerCase();
         if (input.equals("n")) {
@@ -514,8 +545,10 @@ public class RecipeApp {
     public void addToNewCollection(Recipe recipe) {
         System.out.println("Let's create a new collection!");
         UserCollection newcollection = new UserCollection();
+        createDivider();
         System.out.println("Enter the title of your collection:");
         String title = this.userinput.nextLine();
+        createDivider();
         System.out.println("Enter the description of your collection:");
         String description = this.userinput.nextLine();
         newcollection.setTitle(title);
@@ -528,13 +561,16 @@ public class RecipeApp {
     // EFFECTS: Prompts user to confirm whether to add recipe to collection and
     //          performs the chosen task upon decision.
     public void optionAddCollection(UserCollection collection, Recipe recipe) {
+        createDivider();
         System.out.println("Would you like to add your recipe to this collection?");
+        createDivider();
         System.out.println("(Y) Yes");
         System.out.println("(N) No");
         String input = genericLowercaseInput();
         if (input.equals("y")) {
             confirmAddRecipeCollection(input, collection, recipe);
         } else if (input.equals("n")) {
+            createDivider();
             System.out.println("The recipe was not added to the collection.");
             returnToMenu();
         } else {
@@ -550,10 +586,17 @@ public class RecipeApp {
         database.addToExistingUserCollection(collection);
         boolean success = collection.addRecipe(recipe);
         if (success) {
+            createDivider();
             System.out.println("The recipe was successfully added to your collection.");
+            collectionSmallMenu(input);
         } else {
+            createDivider();
             System.out.println("This recipe already exists in the collection.");
+            collectionSmallMenu(input);
         }
+    }
+
+    public void collectionSmallMenu(String input) {
         System.out.println("(V) View all collections.");
         System.out.println("(Q) Back to Menu");
         input = genericLowercaseInput();

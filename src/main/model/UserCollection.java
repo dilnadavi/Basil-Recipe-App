@@ -3,6 +3,8 @@ package model;
 
 import java.util.ArrayList;
 
+// A class that represents a user collection, which has a title, description
+// and recipes that users can add into the collection.
 public class UserCollection {
     private String title;
     private String description;

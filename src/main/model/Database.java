@@ -2,6 +2,9 @@ package model;
 
 import java.util.ArrayList;
 
+// A class that represents a the database, which contains all the program's recipes.
+// A database contains default hard-coded recipes, user recipes, and multiple collections
+// that a user can create and add recipes into.
 public class Database {
 
     private ArrayList<Recipe> allrecipes;
