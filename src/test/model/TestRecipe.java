@@ -60,7 +60,7 @@ public class TestRecipe {
     }
 
     @Test
-    void addReccomendTest() {
+    void testaddReccomend() {
         r1.addReccomend(true);
         r2.addReccomend(false);
         //assertEquals(100, r1.getRating());
@@ -92,7 +92,7 @@ public class TestRecipe {
     }
 
     @Test
-    void getTotalRatersTest() {
+    void testgetTotalRaters() {
         r1.addReccomend(true);
         assertEquals(1, r1.getTotalRaters());
         r1.addReccomend(false);
@@ -107,7 +107,7 @@ public class TestRecipe {
     }
 
     @Test
-    void addCommentTest() {
+    void testaddComment() {
         r1.addComment("Nice recipe!");
         assertEquals("Nice recipe!", r1.getComments().get(0));
         r1.addComment("It's alright.");
@@ -117,7 +117,7 @@ public class TestRecipe {
     }
 
     @Test
-    void addIngredientsTest() {
+    void testaddIngredients() {
         r1.addIngredient("Banana");
         assertEquals("Banana", r1.getIngredients().get(0));
         r1.addIngredient("Banana");
@@ -131,7 +131,7 @@ public class TestRecipe {
     }
 
     @Test
-    void getSpecificIngredientTest() {
+    void testgetSpecificIngredient() {
         r1.addIngredient("Banana");
         r1.addIngredient("Brown Sugar");
         r1.addIngredient("Baking powder");
@@ -144,7 +144,7 @@ public class TestRecipe {
     }
 
     @Test
-    void addDirectionTest() {
+    void testaddDirection() {
         r1.addDirection("Preheat oven to 360F.");
         r1.addDirection("Mix wet ingredients.");
         r1.addDirection("Mix dry ingredients.");
