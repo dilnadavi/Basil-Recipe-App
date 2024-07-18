@@ -42,7 +42,6 @@ public class RecipeApp {
         userinput.useDelimiter("\r?\n|\r");
     }
 
-    // MODIFIES: this
     // EFFECTS: Prints the menu, prompts user to select from the options and 
     //          recognizes the user input to procceed accordingly. 
     public void menu() {
@@ -79,7 +78,6 @@ public class RecipeApp {
         }
     }
 
-    // MODIFIES: this
     // EFFECTS: Prints a message when the user input does not correspond
     //          to presented options
     public void wrongKey() {
@@ -88,7 +86,6 @@ public class RecipeApp {
         returnToMenu();
     }
 
-    // MODIFIES: this
     // EFFECTS: prompts the user for an ingredient input and finds recipes that
     //          contain the ingredient in the database, presenting further 
     //          user options
@@ -109,7 +106,6 @@ public class RecipeApp {
         }
     }
 
-    // MODIFIES: this
     // EFFECTS: finds the recipe with the highest rating in the database and
     //          presents options for interaction
     public void browseTop() {
@@ -162,7 +158,6 @@ public class RecipeApp {
         }
     }
 
-    // MODIFIES: this
     // EFFECTS: reads the next user input and changes it to lowercase
     public String genericLowercaseInput() {
         String input = this.userinput.nextLine();
@@ -170,7 +165,6 @@ public class RecipeApp {
         return input;
     } 
 
-    // MODIFIES: this
     // EFFECTS: Presents all the created collections in the database and presents
     //          user interaction options (view or delete collections)
     public void viewCollections() {
@@ -227,6 +221,7 @@ public class RecipeApp {
         }
     }
 
+    // MODIFIES: this
     // EFFECTS: removes all the recipe entries from the provided UserCollection
     public void resetCollection(UserCollection uc) {
         uc.resetCollection();
@@ -272,6 +267,7 @@ public class RecipeApp {
         }
     }
 
+    // MODIFIES: this
     // EFFECTS: Removes recipe from collection if the recipe exists in the
     //          collection
     public void removeRecipeOption(UserCollection uc, Recipe chosen) {
@@ -287,7 +283,6 @@ public class RecipeApp {
         }
     }
 
-    // MODIFIES: this
     // EFFECTS: presents a display of the user recipes, and does respective tasks
     //          (view recipe, return to menu) based on user input
     public void viewUserRecipes() {
@@ -362,7 +357,6 @@ public class RecipeApp {
         }
     }
 
-    // MODIFIES: this
     // EFFECTS: Presents recipes and prompts user with option to choose from
     //          the listed recipes or return to menu
     public void recipesMenuSelection(String input, ArrayList<Recipe> recipes) {
@@ -442,7 +436,6 @@ public class RecipeApp {
         viewAllComments(recipe);
     }
 
-    // MODIFIES: this
     // EFFECTS: displays all the comments of the recipe, along with other
     //          options of interaction
     public void viewAllComments(Recipe recipe) {
@@ -462,7 +455,6 @@ public class RecipeApp {
         }
     }
 
-    // MODIFIES: this
     // EFFECTS: prompts user with option of adding a comment or returning to menu
     //          and performs respective task
     public void addCommentMenu(Recipe recipe) {
@@ -517,7 +509,6 @@ public class RecipeApp {
         }
     }
 
-    // MODIFIES: this
     // EFFECTS: Prompts user to add the recipe to a new collection, an existing
     //          collection, or to go back to menu. Performs chosen task
     public void addToCollection(Recipe recipe) {
@@ -596,6 +587,8 @@ public class RecipeApp {
         }
     }
 
+    // EFFECTS: displays a small menu for a collection, with option to view
+    //          all menu or return to main menu
     public void collectionSmallMenu(String input) {
         System.out.println("(V) View all collections.");
         System.out.println("(Q) Back to Menu");
@@ -609,7 +602,6 @@ public class RecipeApp {
         }
     }
 
-    // MODIFIES: this
     // EFFECTS: prompts user to return to menu and returns to menu
     //          based on user input.
     public void returnToMenu() {
