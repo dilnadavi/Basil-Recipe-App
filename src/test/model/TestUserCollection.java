@@ -25,11 +25,8 @@ public class TestUserCollection {
     @Test
     void testUserCollection() {
         assertEquals(0, mycollection.getRecipes().size());
-        assertEquals("My Collection", mycollection.getTitle());
         //assertEquals(..., mycollection.getThumbnail());
         assertEquals(0, newcollection.getRecipes().size());
-        assertEquals("My Collection", newcollection.getTitle());
-        assertEquals("No description provided.", mycollection.getDescription());
     }
 
     @Test

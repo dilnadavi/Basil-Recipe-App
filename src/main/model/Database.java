@@ -2,10 +2,16 @@ package model;
 
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import persistence.Writable;
+
+
 // A class that represents a the database, which contains all the program's recipes.
 // A database contains default hard-coded recipes, user recipes, and multiple collections
 // that a user can create and add recipes into.
-public class Database {
+public class Database implements Writable {
 
     private ArrayList<Recipe> allrecipes;
     private ArrayList<Recipe> userrecipes;
@@ -146,6 +152,48 @@ public class Database {
     // EFFECTS: removes collection from the existing user collections
     public void removeFromExistingUserCollection(UserCollection collection) {
         collections.remove(collection);
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("user collections", userCollectionToJson());
+        json.put("personal recipes", personalRecipesToJson());
+        json.put("all recipes", allRecipesToJson());
+        return json;
+    }
+
+    // EFFECTS: returns user collections in this database as a JSON array
+    private JSONArray userCollectionToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (UserCollection uc : collections) {
+            jsonArray.put(uc.toJson());
+        }
+
+        return jsonArray;
+    }
+
+    // EFFECTS: returns personal recipes in this database as a JSON array
+    private JSONArray personalRecipesToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Recipe r : userrecipes) {
+            jsonArray.put(r.toJson());
+        }
+
+        return jsonArray;
+    }
+
+    // EFFECTS: returns all recipes in this database as a JSON array
+    private JSONArray allRecipesToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Recipe r : allrecipes) {
+            jsonArray.put(r.toJson());
+        }
+
+        return jsonArray;
     }
 
 }

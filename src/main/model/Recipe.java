@@ -1,10 +1,15 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import persistence.Writable;
+
 import java.util.ArrayList;
 
 // A class that represents a recipe with a title, author, cook-time,
 // ingredients, directions, ratings and comments
-public class Recipe {
+public class Recipe implements Writable {
     private String author;
     private String title;
     private int cookTime;
@@ -130,5 +135,62 @@ public class Recipe {
     // EFFECTS: get directions of the recipe
     public ArrayList<String> getDirections() {
         return directions;
+    }
+
+    public void setRaters(int totalRaters) {
+        this.totalRaters = totalRaters;
+        // TODO: make test
+    }
+
+    public void setRecommends(int recommends) {
+        this.recommends = recommends;
+        // TODO: make test
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", title);
+        json.put("author", author);
+        json.put("cook time", cookTime);
+        json.put("recommends", recommends);
+        json.put("raters", totalRaters);
+        json.put("ingredients", ingredientsToJson());
+        json.put("directions", directionsToJson());
+        json.put("comments", commentsToJson());
+        return json;
+    }
+
+    // EFFECTS: returns things in this workroom as a JSON array
+    private JSONArray ingredientsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (String ingredient : ingredients) {
+            jsonArray.put(ingredient);
+        }
+
+        return jsonArray;
+    }
+
+    // EFFECTS: returns things in this workroom as a JSON array
+    private JSONArray directionsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (String direction : directions) {
+            jsonArray.put(direction);
+        }
+
+        return jsonArray;
+    }
+
+    // EFFECTS: returns things in this workroom as a JSON array
+    private JSONArray commentsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (String comment : comments) {
+            jsonArray.put(comment);
+        }
+
+        return jsonArray;
     }
 }

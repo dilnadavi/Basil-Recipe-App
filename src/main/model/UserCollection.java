@@ -2,10 +2,13 @@ package model;
 
 
 import java.util.ArrayList;
+import org.json.JSONObject;
+import org.json.JSONArray;
+import persistence.Writable;
 
 // A class that represents a user collection, which has a title, description
 // and recipes that users can add into the collection.
-public class UserCollection {
+public class UserCollection implements Writable {
     private String title;
     private String description;
     private ArrayList<Recipe> recipes;
@@ -13,8 +16,6 @@ public class UserCollection {
     // EFFECTS: Creates a user collection with default description and title,
     // with no recipes so far
     public UserCollection() {
-        this.title = "My Collection";
-        this.description = "No description provided.";
         recipes = new ArrayList<Recipe>();
     }
 
@@ -70,6 +71,27 @@ public class UserCollection {
     // EFFECTS: removes all the recipes from the collection
     public void resetCollection() {
         recipes = new ArrayList<Recipe>();
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("title", title);
+        json.put("description", description);
+        json.put("recipes", recipesToJson());
+
+        return json;
+    }
+
+    // EFFECTS: returns things in this workroom as a JSON array
+    private JSONArray recipesToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Recipe r : recipes) {
+            jsonArray.put(r.toJson());
+        }
+
+        return jsonArray;
     }
 
 }

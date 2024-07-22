@@ -2,22 +2,31 @@ package ui;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 import model.Database;
 import model.Recipe;
 import model.UserCollection;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 
 // Recipe application that allows user to search for recipes by ingredient, add recipes
 // to collections and add their own recipes.
 // REFERENCE: Scanner and menu behaviour is studied/referenced from UBC CPSC210's Teller App
 public class RecipeApp {
 
+    private static final String JSON_STORE = "./data/database.json";
     private Scanner userinput;
     private boolean programStatus;
     private Database database;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     //EFFECTS: Starts the recipe application
-    public RecipeApp() {
+    public RecipeApp() throws FileNotFoundException {
         startApp();
     }
 
@@ -39,7 +48,10 @@ public class RecipeApp {
         userinput = new Scanner(System.in);
         programStatus = true;
         database = new Database();
+        // TODO: load in multiple recipes automatically
         userinput.useDelimiter("\r?\n|\r");
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
     }
 
     // EFFECTS: Prints the menu, prompts user to select from the options and 
@@ -51,6 +63,8 @@ public class RecipeApp {
         System.out.println("\t(C) Create Personal Recipe");
         System.out.println("\t(V) View Personal Recipes");
         System.out.println("\t(A) View All Collections");
+        System.out.println("\t(L) Load File");
+        System.out.println("\t(F) Save File");
         System.out.println("\t(Q) Quit App");
 
         String input = this.userinput.nextLine();
@@ -71,6 +85,10 @@ public class RecipeApp {
             viewUserRecipes();
         } else if (prompt.equals("a"))  {
             viewCollections();
+        } else if (prompt.equals("l"))  {
+            loadDatabase();
+        } else if (prompt.equals("f"))  {
+            saveDatabase();
         } else if (prompt.equals("q"))  {
             programStatus = false;
         } else {
@@ -84,6 +102,29 @@ public class RecipeApp {
         createDivider();
         System.out.println("Sorry, you pressed an invalid key.");
         returnToMenu();
+    }
+
+    // EFFECTS: saves the workroom to file
+    private void saveDatabase() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(database);
+            jsonWriter.close();
+            System.out.println("Saved database to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads workroom from file
+    private void loadDatabase() {
+        try {
+            database = jsonReader.read();
+            System.out.println("Loaded database from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
     }
 
     // EFFECTS: prompts the user for an ingredient input and finds recipes that
@@ -124,6 +165,7 @@ public class RecipeApp {
             wrongKey();
         }
     }
+    
 
     // MODIFIES: this
     // EFFECTS: Prompts the user with questions to create a recipe and add it
