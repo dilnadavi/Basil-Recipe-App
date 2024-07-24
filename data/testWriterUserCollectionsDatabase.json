@@ -1,0 +1,30 @@
+{
+    "user collections": [{
+        "recipes": [
+            {
+                "comments": [],
+                "raters": 0,
+                "directions": [],
+                "author": "TestAuthor",
+                "name": "TestTitle",
+                "cook time": 1,
+                "ingredients": [],
+                "recommends": 0
+            },
+            {
+                "comments": [],
+                "raters": 0,
+                "directions": [],
+                "author": "SecondAuthor",
+                "name": "SecondTitle",
+                "cook time": 7,
+                "ingredients": [],
+                "recommends": 0
+            }
+        ],
+        "description": "Sample Description",
+        "title": "Collection Title"
+    }],
+    "all recipes": [],
+    "personal recipes": []
+}

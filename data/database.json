@@ -1,42 +1,155 @@
 {
-    "user collections": [{
-        "recipes": [{
-            "comments": [],
-            "raters": 1,
-            "directions": [
-                "Preheat the over to 325F.",
-                "In a large bowl take your ripe bananas, eggs and oil and mash.",
-                "In another bowl, combine the flour, sugar, pudding, baking soda and salt.",
-                "Mix dry mix and add to wet mix.",
-                "Fold in the chocolate and shredded coconut.",
-                "Flour pan and bake for 50-65 minutes",
-                "Let it cool and enjoy!"
+    "user collections": [
+        {
+            "recipes": [
+                {
+                    "comments": [],
+                    "raters": 2,
+                    "directions": [
+                        "Preheat the over to 325F.",
+                        "In a large bowl take your ripe bananas, eggs and oil and mash.",
+                        "In another bowl, combine the flour, sugar, pudding, baking soda and salt.",
+                        "Mix dry mix and add to wet mix.",
+                        "Fold in the chocolate and shredded coconut.",
+                        "Flour pan and bake for 50-65 minutes",
+                        "Let it cool and enjoy!"
+                    ],
+                    "author": "Chrissy Teigen",
+                    "name": "Banana Bread",
+                    "cook time": 60,
+                    "ingredients": [
+                        "Banana",
+                        "Egg",
+                        "Sugar",
+                        "Baking soda",
+                        "Canola oil",
+                        "Flour",
+                        "Vanilla jello instant pudding",
+                        "Kosher salt",
+                        "Coconut",
+                        "Dark chocolate",
+                        "Butter"
+                    ],
+                    "recommends": 1
+                },
+                {
+                    "comments": ["Well done!"],
+                    "raters": 0,
+                    "directions": [
+                        "Preheat oven to 325 degrees F. Line 2 large baking sheets with parchment paper.",
+                        "In a medium bowl, beat together butter and 2/3 cup sugar until combined.",
+                        "Add in flour and blend well, then blend in the vanilla.",
+                        "Using a cookie scoop, roll the dough into 1-inch balls.",
+                        "Transfer to the baking sheets 2 inches apart and flatten.",
+                        "Bake for 14-16 minutes.",
+                        "Let rest on the baking sheets for at least 10-15 minutes",
+                        "Enjoy!"
+                    ],
+                    "author": "Bellyfull",
+                    "name": "Easy Sugar Cookies",
+                    "cook time": 15,
+                    "ingredients": [
+                        "Butter",
+                        "Sugar",
+                        "Flour",
+                        "Vanilla",
+                        "Sprinkles"
+                    ],
+                    "recommends": 0
+                },
+                {
+                    "comments": [
+                        "Good!",
+                        "I think it's great!",
+                        "I don't like it!"
+                    ],
+                    "raters": 2,
+                    "directions": [
+                        "add the flour",
+                        "add the sugar",
+                        "add the butter"
+                    ],
+                    "author": "TestAuthor",
+                    "name": "TestTitle",
+                    "cook time": 10,
+                    "ingredients": [
+                        "butter",
+                        " flour",
+                        " sugar"
+                    ],
+                    "recommends": 1
+                }
             ],
-            "author": "Chrissy Teigen",
-            "name": "Banana Bread",
-            "cook time": 60,
-            "ingredients": [
-                "Banana",
-                "Egg",
-                "Sugar",
-                "Baking soda",
-                "Canola oil",
-                "Flour",
-                "Vanilla jello instant pudding",
-                "Kosher salt",
-                "Coconut",
-                "Dark chocolate",
-                "Butter"
-            ],
-            "recommends": 1
-        }],
-        "description": "description of collection",
-        "title": "Title of collection"
-    }],
+            "description": "recipes that use butter",
+            "title": "Butter recipes"
+        },
+        {
+            "recipes": [{
+                "comments": ["It's okay"],
+                "raters": 1,
+                "directions": [
+                    "add the milk",
+                    " add the butter",
+                    " add the bread"
+                ],
+                "author": "Test Another Author",
+                "name": "Test Another Title",
+                "cook time": 1,
+                "ingredients": [
+                    "butter",
+                    " milk",
+                    " bread"
+                ],
+                "recommends": 0
+            }],
+            "description": "recipes with no butter",
+            "title": "No butter recipes"
+        }
+    ],
     "all recipes": [
         {
+            "comments": [
+                "Good!",
+                "I think it's great!",
+                "I don't like it!"
+            ],
+            "raters": 2,
+            "directions": [
+                "add the flour",
+                "add the sugar",
+                "add the butter"
+            ],
+            "author": "TestAuthor",
+            "name": "TestTitle",
+            "cook time": 10,
+            "ingredients": [
+                "butter",
+                " flour",
+                " sugar"
+            ],
+            "recommends": 1
+        },
+        {
+            "comments": ["It's okay"],
+            "raters": 2,
+            "directions": [
+                "add the milk",
+                " add the butter",
+                " add the bread"
+            ],
+            "author": "Test Another Author",
+            "name": "Test Another Title",
+            "cook time": 1,
+            "ingredients": [
+                "butter",
+                " milk",
+                " bread"
+            ],
+            "recommends": 1
+        },
+        {
             "comments": [],
-            "raters": 1,
+            "raters": 2,
             "directions": [
                 "Preheat the over to 325F.",
                 "In a large bowl take your ripe bananas, eggs and oil and mash.",
@@ -65,7 +178,7 @@
             "recommends": 1
         },
         {
-            "comments": [],
+            "comments": ["Well done!"],
             "raters": 0,
             "directions": [
                 "Preheat oven to 325 degrees F. Line 2 large baking sheets with parchment paper.",
@@ -88,40 +201,48 @@
                 "Sprinkles"
             ],
             "recommends": 0
-        },
-        {
-            "comments": [],
-            "raters": 0,
-            "directions": [
-                "first",
-                "second",
-                "third"
-            ],
-            "author": "me",
-            "name": "Personal recipe",
-            "cook time": 10,
-            "ingredients": [
-                "banana",
-                " butter"
-            ],
-            "recommends": 0
         }
     ],
-    "personal recipes": [{
-        "comments": [],
-        "raters": 0,
-        "directions": [
-            "first",
-            "second",
-            "third"
-        ],
-        "author": "me",
-        "name": "Personal recipe",
-        "cook time": 10,
-        "ingredients": [
-            "banana",
-            " butter"
-        ],
-        "recommends": 0
-    }]
+    "personal recipes": [
+        {
+            "comments": [
+                "Good!",
+                "I think it's great!",
+                "I don't like it!"
+            ],
+            "raters": 2,
+            "directions": [
+                "add the flour",
+                "add the sugar",
+                "add the butter"
+            ],
+            "author": "TestAuthor",
+            "name": "TestTitle",
+            "cook time": 10,
+            "ingredients": [
+                "butter",
+                " flour",
+                " sugar"
+            ],
+            "recommends": 1
+        },
+        {
+            "comments": ["It's okay"],
+            "raters": 2,
+            "directions": [
+                "add the milk",
+                " add the butter",
+                " add the bread"
+            ],
+            "author": "Test Another Author",
+            "name": "Test Another Title",
+            "cook time": 1,
+            "ingredients": [
+                "butter",
+                " milk",
+                " bread"
+            ],
+            "recommends": 1
+        }
+    ]
 }

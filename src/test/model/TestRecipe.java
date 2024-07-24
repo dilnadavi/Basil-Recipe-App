@@ -157,5 +157,54 @@ public class TestRecipe {
         assertEquals("Enjoy!", r1.getDirections().get(4));
 
     }
+
+    @Test
+    void testEquals() {
+        Recipe recipeOne = new Recipe("Title", "Author", 1);
+        Recipe sameObj = recipeOne;
+        assertTrue(recipeOne.equals(sameObj));
+        assertFalse(recipeOne.equals(null));
+        Recipe differentTitle = new Recipe("Title1", "Author", 1);
+        assertFalse(recipeOne.equals(differentTitle));
+        Recipe differentAuthor = new Recipe("Title", "Author1", 1);
+        assertFalse(recipeOne.equals(differentAuthor));
+        Recipe differentTime = new Recipe("Title", "Author", 2);
+        assertFalse(recipeOne.equals(differentTime));
+        Recipe sameRecipe = new Recipe("Title", "Author", 1);
+        assertTrue(recipeOne.equals(sameRecipe));
+
+        recipeOne.setRaters(2);
+        recipeOne.setRecommends(1);
+        assertEquals(2, recipeOne.getTotalRaters());
+        assertEquals(1, recipeOne.getRecommends());
+        assertTrue(recipeOne.equals(sameRecipe));
+
+        DifferentRecipeClass recipeDiffClass = new DifferentRecipeClass("Title", "Author", 1);
+        assertFalse(recipeOne.equals(recipeDiffClass));
+    }
+
+    @Test
+    void testEqualsNull() {
+        Recipe recipeOne = new Recipe(null, "Author", 1);
+        Recipe sameRecipe = new Recipe(null, "Author", 1);
+        Recipe differentRecipe = new Recipe("Title", "Author", 1);
+        
+        assertTrue(recipeOne.equals(sameRecipe));
+        assertFalse(recipeOne.equals(differentRecipe));
+        recipeOne = new Recipe("Title", null, 1);
+        sameRecipe = new Recipe("Title", null, 1);
+        assertTrue(recipeOne.equals(sameRecipe));
+        assertFalse(recipeOne.equals(differentRecipe));
+
+    }
+
+    private class DifferentRecipeClass extends Recipe {
+
+        public DifferentRecipeClass(String title, String author, int cookTime) {
+            super(title, author, cookTime);
+            // TODO: ask TA IF THIS IS OKAY
+        }
+
+    }
     
 }

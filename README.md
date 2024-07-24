@@ -19,5 +19,5 @@ For my personal project, I wish to make a recipe-geared application. In the appl
 - "I want to be able to choose whether I would or would not recommend a recipe and view recommend rate on recipes."
 - "I want to be able to view the most viewed recipes that specific week."
 - "I want to be able to watch videos on the site if the recipe has a respective video tutorial."
-- "I want to be able to save the personal recipes collections that I have created on my own volition."
+- "I want to be able to save the personal recipes and collections that I have created on my own volition."
 - "I want to be able to load the recipes and collections that I have saved previously from a file."

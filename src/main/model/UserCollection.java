@@ -73,6 +73,7 @@ public class UserCollection implements Writable {
         recipes = new ArrayList<Recipe>();
     }
 
+    // EFFECTS: returns all details of UserCollection as a JSONObject
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
@@ -83,7 +84,7 @@ public class UserCollection implements Writable {
         return json;
     }
 
-    // EFFECTS: returns things in this workroom as a JSON array
+    // EFFECTS: returns the recipes in this collection as a JSON array
     private JSONArray recipesToJson() {
         JSONArray jsonArray = new JSONArray();
 

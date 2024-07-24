@@ -12,6 +12,8 @@ import java.util.stream.Stream;
 
 import org.json.*;
 
+// REFERENCE: Core methods are taken from UBC CPSC210's Workroom App's JsonReader
+// class with personal customizations to fit user project.
 // Represents a reader that reads database from JSON data stored in file
 public class JsonReader {
     private String source;
@@ -40,16 +42,27 @@ public class JsonReader {
         return contentBuilder.toString();
     }
 
-    // EFFECTS: parses workroom from JSON object and returns it
+    // EFFECTS: parses database from JSON object and returns it
     private Database parseDatabase(JSONObject jsonObject) {
         Database db = new Database();
         addUserCollections(db, jsonObject);
         addPersonalRecipes(db, jsonObject);
+        addAllRecipes(db, jsonObject);
         return db;
     }
 
-    // MODIFIES: wr
-    // EFFECTS: parses thingies from JSON object and adds them to workroom
+   // MODIFIES: db
+    // EFFECTS: parses personal recipes from JSON object and adds them to database
+    private void addPersonalRecipes(Database db, JSONObject jsonObject) {
+        JSONArray jsonArray = jsonObject.getJSONArray("personal recipes");
+        for (Object json : jsonArray) {
+            JSONObject nextRecipe = (JSONObject) json;
+            addUserRecipe(db, nextRecipe);
+        }
+    }
+
+    // MODIFIES: db
+    // EFFECTS: parses user collections from JSON object and adds them to database
     private void addUserCollections(Database db, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("user collections");
         for (Object json : jsonArray) {
@@ -58,32 +71,40 @@ public class JsonReader {
         }
     }
 
-    // MODIFIES: wr
-    // EFFECTS: parses thingy from JSON object and adds it to workroom
+    // MODIFIES: db
+    // EFFECTS: parses all recipes from JSON object and adds them to database
+    private void addAllRecipes(Database db, JSONObject jsonObject) {
+        JSONArray jsonArray = jsonObject.getJSONArray("all recipes");
+        for (Object json : jsonArray) {
+            JSONObject nextRecipe = (JSONObject) json;
+            addAllRecipe(db, nextRecipe);
+        }
+    }
+
+    // MODIFIES: db
+    // EFFECTS: parses a user collection from JSON object and adds it to
+    //          the the database's user collections
     private void addUserCollection(Database db, JSONObject jsonObject) {
         UserCollection usercollection = new UserCollection();
         String title = jsonObject.getString("title");
         String description = jsonObject.getString("description");
+        
         usercollection.setTitle(title);
         usercollection.setDescription(description);
-        db.addToExistingUserCollection(usercollection);
+        
         JSONArray jsonArray = jsonObject.getJSONArray("recipes");
-
         for (Object json : jsonArray) {
             JSONObject nextRecipe = (JSONObject) json;
             addRecipeToCollection(db, nextRecipe, usercollection);
         }
+
+        db.addToExistingUserCollection(usercollection);
     }
 
-    private void addPersonalRecipes(Database db, JSONObject jsonObject) {
-        JSONArray jsonArray = jsonObject.getJSONArray("personal recipes");
-        for (Object json : jsonArray) {
-            JSONObject nextRecipe = (JSONObject) json;
-            addRecipe(db, nextRecipe);
-        }
-    }
-
-    private void addRecipe(Database db, JSONObject jsonObject) {
+    // MODIFIES: db
+    // EFFECTS: parses a recipe from JSON object and adds it to
+    //          the database's user recipes
+    private void addUserRecipe(Database db, JSONObject jsonObject) {
         String title = jsonObject.getString("name");
         String author = jsonObject.getString("author");
         int cookTime = jsonObject.getInt("cook time");
@@ -99,9 +120,32 @@ public class JsonReader {
         addDirections(recipe, jsonObject);
 
         db.addUserRecipeDatabase(recipe);
-        // TODO: redundancy
     }
 
+    // MODIFIES: db
+    // EFFECTS: parses a recipe from JSON object and adds it to
+    //          the database's all recipes
+    private void addAllRecipe(Database db, JSONObject jsonObject) {
+        String title = jsonObject.getString("name");
+        String author = jsonObject.getString("author");
+        int cookTime = jsonObject.getInt("cook time");
+        int recommends = jsonObject.getInt("recommends");
+        int raters = jsonObject.getInt("raters");
+
+        Recipe recipe = new Recipe(title, author, cookTime);
+        recipe.setRaters(raters);
+        recipe.setRecommends(recommends);
+
+        addIngredients(recipe, jsonObject);
+        addComments(recipe, jsonObject);
+        addDirections(recipe, jsonObject);
+
+        db.addDefaultRecipeDatabase(recipe);
+    }
+
+    // MODIFIES: db
+    // EFFECTS: parses a recipe from JSON object and adds it to
+    //          a specific collection in the database
     private void addRecipeToCollection(Database db, JSONObject jsonObject, UserCollection uc) {
         String title = jsonObject.getString("name");
         String author = jsonObject.getString("author");
@@ -117,10 +161,12 @@ public class JsonReader {
         addComments(recipe, jsonObject);
         addDirections(recipe, jsonObject);
 
-        db.addUserRecipeDatabase(recipe);
         uc.addRecipe(recipe);
     }
 
+    // MODIFIES: db
+    // EFFECTS: parses the ingredients from JSON object and adds it to
+    //          the the database's recipe
     public void addIngredients(Recipe recipe, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("ingredients");
         for (Object json : jsonArray) {
@@ -129,6 +175,9 @@ public class JsonReader {
         }
     }
 
+    // MODIFIES: db
+    // EFFECTS: parses the directions from JSON object and adds it to
+    //          the the database's recipe
     public void addDirections(Recipe recipe, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("directions");
         for (Object json : jsonArray) {
@@ -137,6 +186,9 @@ public class JsonReader {
         }
     }
 
+    // MODIFIES: db
+    // EFFECTS: parses the comments from JSON object and adds it to
+    //          the the database's recipe
     public void addComments(Recipe recipe, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("comments");
         for (Object json : jsonArray) {

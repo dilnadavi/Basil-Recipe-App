@@ -1,6 +1,7 @@
 package model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.ArrayList;
 
@@ -23,31 +24,8 @@ public class TestDatabase {
     @Test
     void testDatabase() {
         assertEquals(0, database.getUserRecipeDatabase().size());
-        assertEquals(2, database.getRecipeDatabase().size());
+        assertEquals(0, database.getRecipeDatabase().size());
         assertEquals(0, database.viewAllUserCollection().size());
-    }
-
-    @Test
-    void testaddBananaBread() {
-        assertEquals("Banana Bread", database.getRecipeDatabase().get(0).getTitle());
-        assertEquals(100, database.getRecipeDatabase().get(0).getRating());
-        assertEquals("Chrissy Teigen", database.getRecipeDatabase().get(0).getAuthor());
-        assertEquals(60, database.getRecipeDatabase().get(0).getCookTime());
-        assertEquals(11, database.getRecipeDatabase().get(0).getIngredients().size());
-        assertEquals("Banana", database.getRecipeDatabase().get(0).getIngredients().get(0));
-        assertEquals("Preheat the over to 325F.", database.getRecipeDatabase().get(0).getDirections().get(0));
-        assertEquals(7, database.getRecipeDatabase().get(0).getDirections().size());
-    }
-
-    @Test
-    void testaddSugarCookie() {
-        assertEquals("Easy Sugar Cookies", database.getRecipeDatabase().get(1).getTitle());
-        assertEquals(0, database.getRecipeDatabase().get(1).getRating());
-        assertEquals("Bellyfull", database.getRecipeDatabase().get(1).getAuthor());
-        assertEquals(15, database.getRecipeDatabase().get(1).getCookTime());
-        assertEquals(5, database.getRecipeDatabase().get(1).getIngredients().size());
-        assertEquals("Butter", database.getRecipeDatabase().get(1).getIngredients().get(0));
-        assertEquals(8, database.getRecipeDatabase().get(1).getDirections().size());
     }
 
     @Test
@@ -56,15 +34,27 @@ public class TestDatabase {
         database.addUserRecipeDatabase(crepe);
         database.addUserRecipeDatabase(tomatobread);
         assertEquals(2, database.getUserRecipeDatabase().size());
-        assertEquals(4, database.getRecipeDatabase().size());
+        assertEquals(2, database.getRecipeDatabase().size());
         assertEquals(tomatobread, database.getUserRecipeDatabase().get(0));
         assertEquals(crepe, database.getUserRecipeDatabase().get(1));
         database.removeUserRecipeDatabase(tomatobread);
         assertEquals(1, database.getUserRecipeDatabase().size());
         assertEquals(crepe, database.getUserRecipeDatabase().get(0));
         database.removeUserRecipeDatabase(crepe);
-        database.addUserRecipeDatabase(database.getRecipeDatabase().get(0));
         assertEquals(0, database.getUserRecipeDatabase().size());
+    }
+
+    @Test
+    void testaddSameRecipe() {
+        assertEquals(0, database.getRecipeDatabase().size());
+        database.addDefaultRecipeDatabase(crepe);
+        assertEquals(1, database.getRecipeDatabase().size());
+        Recipe duplicateCrepe = new Recipe("Crepe", "Foo", 5);
+        database.addUserRecipeDatabase(duplicateCrepe);
+        assertEquals(1, database.getRecipeDatabase().size());
+        Recipe differentTimeCrepe = new Recipe("Crepe", "Foo", 10);
+        database.addUserRecipeDatabase(differentTimeCrepe);
+        assertEquals(2, database.getRecipeDatabase().size());
     }
 
     @Test
@@ -72,10 +62,8 @@ public class TestDatabase {
         database.addUserRecipeDatabase(tomatobread);
         database.addUserRecipeDatabase(crepe);
         database.addUserRecipeDatabase(tomatobread);
-        assertEquals("Banana Bread", database.getRecipeDatabase().get(0).getTitle());
-        assertEquals("Easy Sugar Cookies", database.getRecipeDatabase().get(1).getTitle());
-        assertEquals(tomatobread, database.getRecipeDatabase().get(2));
-        assertEquals(crepe, database.getRecipeDatabase().get(3));
+        assertEquals(tomatobread, database.getRecipeDatabase().get(0));
+        assertEquals(crepe, database.getRecipeDatabase().get(1));
     }
 
     @Test
@@ -90,8 +78,6 @@ public class TestDatabase {
     @Test
     void testsearchByIngredient() {
         ArrayList<Recipe> matches = database.searchByIngredient("butter");
-        assertEquals("Banana Bread", matches.get(0).getTitle());
-        assertEquals("Easy Sugar Cookies", matches.get(1).getTitle());
         database.addUserRecipeDatabase(tomatobread);
         database.addUserRecipeDatabase(crepe);
         tomatobread.addIngredient("apples");
@@ -125,13 +111,44 @@ public class TestDatabase {
 
     @Test
     void testfindTopRecipe() {
+        database.addUserRecipeDatabase(crepe);
+        crepe.setRaters(1);
+        crepe.setRecommends(1);
+        database.addUserRecipeDatabase(tomatobread);
         Recipe toprecipe = database.findTopRecipe();
-        assertEquals("Banana Bread", toprecipe.getTitle());
+        assertEquals("Crepe", toprecipe.getTitle());
         database.getRecipeDatabase().get(1).addReccomend(true);
         toprecipe = database.findTopRecipe();
-        assertEquals("Easy Sugar Cookies", toprecipe.getTitle());
+        assertEquals("Tomato Bread", toprecipe.getTitle());
         toprecipe = database.findTopRecipe();
-        assertEquals("Easy Sugar Cookies", toprecipe.getTitle());
+        assertEquals("Tomato Bread", toprecipe.getTitle());
+    }
+
+    @Test
+    void testaddDefaultRecipeDatabase() {
+        database.addDefaultRecipeDatabase(crepe);
+        assertEquals(1, database.getRecipeDatabase().size());
+        assertEquals(0, database.getUserRecipeDatabase().size());
+        database.addDefaultRecipeDatabase(tomatobread);
+        assertEquals(2, database.getRecipeDatabase().size());
+        assertEquals(0, database.getUserRecipeDatabase().size());
+        database.addDefaultRecipeDatabase(crepe);
+        assertEquals(2, database.getRecipeDatabase().size());
+        assertEquals(0, database.getUserRecipeDatabase().size());
+    }
+
+    @Test
+    void testLookUp() {
+        database.addDefaultRecipeDatabase(crepe);
+        database.addDefaultRecipeDatabase(tomatobread);
+
+        assertEquals(crepe, database.getRecipeDatabase().get(0));
+
+        assertEquals(crepe, database.lookUp("Crepe", "Foo", 5));
+        assertEquals(tomatobread, database.lookUp("Tomato Bread", "Me", 30));
+        assertNull(database.lookUp("Crepe", "Foo", 4));
+        assertNull(database.lookUp("Crep", "Foo", 5));
+        assertNull(database.lookUp("Crepe", "F", 5));
     }
 
 }

@@ -137,16 +137,21 @@ public class Recipe implements Writable {
         return directions;
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets the totalRaters of the recipe to input
     public void setRaters(int totalRaters) {
         this.totalRaters = totalRaters;
         // TODO: make test
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets the recommends of the recipe to input
     public void setRecommends(int recommends) {
         this.recommends = recommends;
         // TODO: make test
     }
 
+    // EFFECTS: returns all details of Recipe as a JSONObject
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
@@ -158,10 +163,11 @@ public class Recipe implements Writable {
         json.put("ingredients", ingredientsToJson());
         json.put("directions", directionsToJson());
         json.put("comments", commentsToJson());
+        
         return json;
     }
 
-    // EFFECTS: returns things in this workroom as a JSON array
+    // EFFECTS: returns ingredients in this recipe as a JSON array
     private JSONArray ingredientsToJson() {
         JSONArray jsonArray = new JSONArray();
 
@@ -172,7 +178,7 @@ public class Recipe implements Writable {
         return jsonArray;
     }
 
-    // EFFECTS: returns things in this workroom as a JSON array
+    // EFFECTS: returns directions in this recipe as a JSON array
     private JSONArray directionsToJson() {
         JSONArray jsonArray = new JSONArray();
 
@@ -183,7 +189,7 @@ public class Recipe implements Writable {
         return jsonArray;
     }
 
-    // EFFECTS: returns things in this workroom as a JSON array
+    // EFFECTS: returns comments in this recipe as a JSON array
     private JSONArray commentsToJson() {
         JSONArray jsonArray = new JSONArray();
 
@@ -192,5 +198,52 @@ public class Recipe implements Writable {
         }
 
         return jsonArray;
+    }
+
+    // EFFECTS: maintains the contract between the hashCode() and equals() method
+    //          when overriding the equals() method from Object class
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((author == null) ? 0 : author.hashCode());
+        result = prime * result + ((title == null) ? 0 : title.hashCode());
+        result = prime * result + cookTime;
+        return result;
+    }
+
+    // EFFECTS: Checks whether the two recipes are equal. Returns true if
+    // both recipes have the same title, author AND cookTime, false otherwise.
+    @SuppressWarnings("methodlength")
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Recipe other = (Recipe) obj;
+        if (author == null) {
+            if (other.author != null) {
+                return false;
+            }
+        } else if (!author.equals(other.author)) {
+            return false;
+        }
+        if (title == null) {
+            if (other.title != null) {
+                return false;
+            }
+        } else if (!title.equals(other.title)) {
+            return false;
+        }
+        if (cookTime != other.cookTime) {
+            return false;
+        }
+        return true;
     }
 }

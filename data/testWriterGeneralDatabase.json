@@ -1,0 +1,41 @@
+{
+    "user collections": [],
+    "all recipes": [{
+        "comments": [
+            "Good job!",
+            "Well done!"
+        ],
+        "raters": 4,
+        "directions": [
+            "Turn the oven on.",
+            "Put it in."
+        ],
+        "author": "TestAuthor",
+        "name": "TestTitle",
+        "cook time": 1,
+        "ingredients": [
+            "banana",
+            "apple"
+        ],
+        "recommends": 3
+    }],
+    "personal recipes": [{
+        "comments": [
+            "Good job!",
+            "Well done!"
+        ],
+        "raters": 4,
+        "directions": [
+            "Turn the oven on.",
+            "Put it in."
+        ],
+        "author": "TestAuthor",
+        "name": "TestTitle",
+        "cook time": 1,
+        "ingredients": [
+            "banana",
+            "apple"
+        ],
+        "recommends": 3
+    }]
+}

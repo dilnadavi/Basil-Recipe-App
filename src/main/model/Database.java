@@ -16,65 +16,15 @@ public class Database implements Writable {
     private ArrayList<Recipe> allrecipes;
     private ArrayList<Recipe> userrecipes;
     private ArrayList<UserCollection> collections;
-    private Recipe bananabread;
-    private Recipe sugarcookie;
 
     // EFFECTS: Constructs a database with recipes loaded in and empty user recipes
     //          and empty collections
     public Database() {
-        addBananaBread();
-        addSugarCookie();
 
         allrecipes = new ArrayList<Recipe>();
-        allrecipes.add(bananabread);
-        allrecipes.add(sugarcookie);
 
         userrecipes = new ArrayList<Recipe>();
         collections = new ArrayList<UserCollection>();
-    }
-
-    // MODIFIES: this
-    // EFFECTS: adds the hard-coded recipe of Chrissy Teigen's Banana Bread
-    private void addBananaBread() {
-        bananabread = new Recipe("Banana Bread", "Chrissy Teigen", 60);
-        bananabread.addReccomend(true);
-        bananabread.addIngredient("Banana");
-        bananabread.addIngredient("Egg");
-        bananabread.addIngredient("Sugar");
-        bananabread.addIngredient("Baking soda");
-        bananabread.addIngredient("Canola oil");
-        bananabread.addIngredient("Flour");
-        bananabread.addIngredient("Vanilla jello instant pudding");
-        bananabread.addIngredient("Kosher salt");
-        bananabread.addIngredient("Coconut");
-        bananabread.addIngredient("Dark chocolate");
-        bananabread.addIngredient("Butter");
-        bananabread.addDirection("Preheat the over to 325F.");
-        bananabread.addDirection("In a large bowl take your ripe bananas, eggs and oil and mash.");
-        bananabread.addDirection("In another bowl, combine the flour, sugar, pudding, baking soda and salt.");
-        bananabread.addDirection("Mix dry mix and add to wet mix.");
-        bananabread.addDirection("Fold in the chocolate and shredded coconut.");
-        bananabread.addDirection("Flour pan and bake for 50-65 minutes");
-        bananabread.addDirection("Let it cool and enjoy!");
-    }
-
-    // MODIFIES: this
-    // EFFECTS: adds the hard-coded recipe of Bellyful's Sugar Cookies
-    private void addSugarCookie() {
-        sugarcookie = new Recipe("Easy Sugar Cookies", "Bellyfull", 15);
-        sugarcookie.addIngredient("Butter");
-        sugarcookie.addIngredient("Sugar");
-        sugarcookie.addIngredient("Flour");
-        sugarcookie.addIngredient("Vanilla");
-        sugarcookie.addIngredient("Sprinkles");
-        sugarcookie.addDirection("Preheat oven to 325 degrees F. Line 2 large baking sheets with parchment paper.");
-        sugarcookie.addDirection("In a medium bowl, beat together butter and 2/3 cup sugar until combined.");
-        sugarcookie.addDirection("Add in flour and blend well, then blend in the vanilla.");
-        sugarcookie.addDirection("Using a cookie scoop, roll the dough into 1-inch balls.");
-        sugarcookie.addDirection("Transfer to the baking sheets 2 inches apart and flatten.");
-        sugarcookie.addDirection("Bake for 14-16 minutes.");
-        sugarcookie.addDirection("Let rest on the baking sheets for at least 10-15 minutes");
-        sugarcookie.addDirection("Enjoy!");
     }
 
     // EFFECTS: gets all the recipes in the database
@@ -83,11 +33,30 @@ public class Database implements Writable {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds a user recipe to the database
+    // EFFECTS: adds a recipe to the database's all recipes directly
+    public void addDefaultRecipeDatabase(Recipe recipe) {
+        if (!allrecipes.contains(recipe)) {
+            this.allrecipes.add(recipe);
+        }
+    }
+    //TODO: add tests
+
+    // MODIFIES: this
+    // EFFECTS: If there exists the same recipe in all recipes, simply adds
+    //          recipe to userRecipes. If the recipe does not already exist
+    //          in all recipes, adds the recipe to both user recipes and
+    //          all recipes
     public void addUserRecipeDatabase(Recipe recipe) {
-        if (!userrecipes.contains(recipe) && !allrecipes.contains(recipe)) {
+        boolean sameRecipe = false;
+        for (Recipe r: allrecipes) {
+            sameRecipe = recipe.equals(r);
+        }
+        if (!userrecipes.contains(recipe) && !sameRecipe) {
             this.userrecipes.add(recipe);
             this.allrecipes.add(recipe);
+        } else if (!userrecipes.contains(recipe) && sameRecipe) {
+            Recipe equalRecipe = lookUp(recipe.getTitle(), recipe.getAuthor(), recipe.getCookTime());
+            this.userrecipes.add(equalRecipe);
         }
     }
 
@@ -154,6 +123,22 @@ public class Database implements Writable {
         collections.remove(collection);
     }
 
+    // EFFECTS: accepts parameters for title, author and cookTime and returns
+    //          a recipe if it has the same title, author and cooktime, otherwise
+    //          returns null.
+    public Recipe lookUp(String title, String author, int cookTime) {
+        for (Recipe r: allrecipes) {
+            boolean sameAuthor = author.equals(r.getAuthor());
+            boolean sameTitle = title.equals(r.getTitle());
+            boolean samecookTime = (cookTime == r.getCookTime());
+            if (sameTitle && sameAuthor && samecookTime) {
+                return r;
+            }
+        }
+        return null;
+    }
+
+
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
@@ -195,5 +180,4 @@ public class Database implements Writable {
 
         return jsonArray;
     }
-
 }

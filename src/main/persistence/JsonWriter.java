@@ -6,6 +6,9 @@ import org.json.JSONObject;
 
 import java.io.*;
 
+// REFERENCE: Core methods are taken from UBC CPSC210's Workroom App's JsonWriter
+// class with personal customizations to fit user project.
+// Represents a writer that stores database into JSON data in file
 public class JsonWriter {
     private static final int TAB = 4;
     private PrintWriter writer;

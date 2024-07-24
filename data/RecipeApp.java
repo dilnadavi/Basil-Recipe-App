@@ -15,9 +15,7 @@ import java.io.IOException;
 
 // Recipe application that allows user to search for recipes by ingredient, add recipes
 // to collections and add their own recipes.
-// REFERENCE: Scanner and menu behaviour is studied/referenced from UBC CPSC210's Teller App.
-// The JSON scanning and testing behaviour is taken from UBC CPSC210's Workroom App,
-// including the saveDatabase() and loadDatabase() methods with some customization.
+// REFERENCE: Scanner and menu behaviour is studied/referenced from UBC CPSC210's Teller App
 public class RecipeApp {
 
     private static final String JSON_STORE = "./data/database.json";
@@ -52,6 +50,7 @@ public class RecipeApp {
         userinput = new Scanner(System.in);
         programStatus = true;
         database = new Database();
+        // TODO: load in multiple recipes automatically
         userinput.useDelimiter("\r?\n|\r");
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
@@ -107,6 +106,40 @@ public class RecipeApp {
         createDivider();
         System.out.println("Sorry, you pressed an invalid key.");
         returnToMenu();
+    }
+
+    // EFFECTS: saves the workroom to file
+    private void saveDatabase() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(database);
+            jsonWriter.close();
+            System.out.println("Saved database to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads pre-loaded recipes from file
+    private void preloadRecipe() {
+        try {
+            database = preReader.read();
+            System.out.println("Loaded default recipes from " + JSON_STORE2);
+        } catch (IOException e) {
+            System.out.println("Unable to load default recipes: " + JSON_STORE2);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads workroom from file
+    private void loadDatabase() {
+        try {
+            database = jsonReader.read();
+            System.out.println("Loaded database from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
     }
 
     // EFFECTS: prompts the user for an ingredient input and finds recipes that
@@ -663,40 +696,6 @@ public class RecipeApp {
     // EFFECTS: prints a divider
     public void createDivider() {
         System.out.println("------------------------");
-    }
-
-    // EFFECTS: saves the current Database to file
-    private void saveDatabase() {
-        try {
-            jsonWriter.open();
-            jsonWriter.write(database);
-            jsonWriter.close();
-            System.out.println("Saved database to " + JSON_STORE);
-        } catch (FileNotFoundException e) {
-            System.out.println("Unable to write to file: " + JSON_STORE);
-        }
-    }
-
-    // MODIFIES: this
-    // EFFECTS: loads pre-loaded recipes from file into the database
-    private void preloadRecipe() {
-        try {
-            database = preReader.read();
-            System.out.println("Loaded default recipes from " + JSON_STORE2);
-        } catch (IOException e) {
-            System.out.println("Unable to load default recipes: " + JSON_STORE2);
-        }
-    }
-
-    // MODIFIES: this
-    // EFFECTS: loads the previously saved Database from file
-    private void loadDatabase() {
-        try {
-            database = jsonReader.read();
-            System.out.println("Loaded database from " + JSON_STORE);
-        } catch (IOException e) {
-            System.out.println("Unable to read from file: " + JSON_STORE);
-        }
     }
 
 }

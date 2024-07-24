@@ -1,0 +1,193 @@
+{
+    "user collections": [{
+        "recipes": [
+            {
+                "comments": [],
+                "raters": 0,
+                "directions": [
+                    "direction1",
+                    "direction2",
+                    "direction3"
+                ],
+                "author": "RecipeAuthor",
+                "name": "RecipeTitle",
+                "cook time": 1,
+                "ingredients": [
+                    "ingredient1",
+                    "ingredient2",
+                    "ingredient3"
+                ],
+                "recommends": 0
+            },
+            {
+                "comments": [
+                    "Comment1",
+                    "Comment2"
+                ],
+                "raters": 2,
+                "directions": [
+                    "Preheat the over to 325F.",
+                    "In a large bowl take your ripe bananas, eggs and oil and mash.",
+                    "In another bowl, combine the flour, sugar, pudding, baking soda and salt.",
+                    "Mix dry mix and add to wet mix.",
+                    "Fold in the chocolate and shredded coconut.",
+                    "Flour pan and bake for 50-65 minutes",
+                    "Let it cool and enjoy!"
+                ],
+                "author": "Chrissy Teigen",
+                "name": "Banana Bread",
+                "cook time": 60,
+                "ingredients": [
+                    "Banana",
+                    "Egg",
+                    "Sugar",
+                    "Baking soda",
+                    "Canola oil",
+                    "Flour",
+                    "Vanilla jello instant pudding",
+                    "Kosher salt",
+                    "Coconut",
+                    "Dark chocolate",
+                    "Butter"
+                ],
+                "recommends": 1
+            }
+        ],
+        "description": "Description",
+        "title": "CollectionSample"
+    }],
+    "all recipes": [
+        {
+            "comments": [
+                "Comment1",
+                "Comment2"
+            ],
+            "raters": 2,
+            "directions": [
+                "Preheat the over to 325F.",
+                "In a large bowl take your ripe bananas, eggs and oil and mash.",
+                "In another bowl, combine the flour, sugar, pudding, baking soda and salt.",
+                "Mix dry mix and add to wet mix.",
+                "Fold in the chocolate and shredded coconut.",
+                "Flour pan and bake for 50-65 minutes",
+                "Let it cool and enjoy!"
+            ],
+            "author": "Chrissy Teigen",
+            "name": "Banana Bread",
+            "cook time": 60,
+            "ingredients": [
+                "Banana",
+                "Egg",
+                "Sugar",
+                "Baking soda",
+                "Canola oil",
+                "Flour",
+                "Vanilla jello instant pudding",
+                "Kosher salt",
+                "Coconut",
+                "Dark chocolate",
+                "Butter"
+            ],
+            "recommends": 1
+        },
+        {
+            "comments": [],
+            "raters": 0,
+            "directions": [
+                "Preheat oven to 325 degrees F. Line 2 large baking sheets with parchment paper.",
+                "In a medium bowl, beat together butter and 2/3 cup sugar until combined.",
+                "Add in flour and blend well, then blend in the vanilla.",
+                "Using a cookie scoop, roll the dough into 1-inch balls.",
+                "Transfer to the baking sheets 2 inches apart and flatten.",
+                "Bake for 14-16 minutes.",
+                "Let rest on the baking sheets for at least 10-15 minutes",
+                "Enjoy!"
+            ],
+            "author": "Bellyfull",
+            "name": "Easy Sugar Cookies",
+            "cook time": 15,
+            "ingredients": [
+                "Butter",
+                "Sugar",
+                "Flour",
+                "Vanilla",
+                "Sprinkles"
+            ],
+            "recommends": 0
+        },
+        {
+            "comments": [],
+            "raters": 0,
+            "directions": [
+                "direction1",
+                "direction2",
+                "direction3"
+            ],
+            "author": "RecipeAuthor",
+            "name": "RecipeTitle",
+            "cook time": 1,
+            "ingredients": [
+                "ingredient1",
+                "ingredient2",
+                "ingredient3"
+            ],
+            "recommends": 0
+        },
+        {
+            "comments": [],
+            "raters": 0,
+            "directions": [
+                "dir1",
+                "dir2",
+                "dir3"
+            ],
+            "author": "Author2",
+            "name": "Recipe2",
+            "cook time": 100,
+            "ingredients": [
+                "one",
+                "two",
+                "three"
+            ],
+            "recommends": 0
+        }
+    ],
+    "personal recipes": [
+        {
+            "comments": [],
+            "raters": 0,
+            "directions": [
+                "direction1",
+                "direction2",
+                "direction3"
+            ],
+            "author": "RecipeAuthor",
+            "name": "RecipeTitle",
+            "cook time": 1,
+            "ingredients": [
+                "ingredient1",
+                "ingredient2",
+                "ingredient3"
+            ],
+            "recommends": 0
+        },
+        {
+            "comments": [],
+            "raters": 0,
+            "directions": [
+                "dir1",
+                "dir2",
+                "dir3"
+            ],
+            "author": "Author2",
+            "name": "Recipe2",
+            "cook time": 100,
+            "ingredients": [
+                "one",
+                "two",
+                "three"
+            ],
+            "recommends": 0
+        }
+    ]
+}
