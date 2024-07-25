@@ -4,7 +4,23 @@
             "recipes": [
                 {
                     "comments": [],
-                    "raters": 2,
+                    "raters": 0,
+                    "directions": [
+                        "add the butter",
+                        "add the things"
+                    ],
+                    "author": "Author",
+                    "name": "PersonalRecipe1",
+                    "cook time": 10,
+                    "ingredients": [
+                        "butter",
+                        " things"
+                    ],
+                    "recommends": 0
+                },
+                {
+                    "comments": ["Very good job!"],
+                    "raters": 1,
                     "directions": [
                         "Preheat the over to 325F.",
                         "In a large bowl take your ripe bananas, eggs and oil and mash.",
@@ -31,125 +47,82 @@
                         "Butter"
                     ],
                     "recommends": 1
-                },
-                {
-                    "comments": ["Well done!"],
-                    "raters": 0,
-                    "directions": [
-                        "Preheat oven to 325 degrees F. Line 2 large baking sheets with parchment paper.",
-                        "In a medium bowl, beat together butter and 2/3 cup sugar until combined.",
-                        "Add in flour and blend well, then blend in the vanilla.",
-                        "Using a cookie scoop, roll the dough into 1-inch balls.",
-                        "Transfer to the baking sheets 2 inches apart and flatten.",
-                        "Bake for 14-16 minutes.",
-                        "Let rest on the baking sheets for at least 10-15 minutes",
-                        "Enjoy!"
-                    ],
-                    "author": "Bellyfull",
-                    "name": "Easy Sugar Cookies",
-                    "cook time": 15,
-                    "ingredients": [
-                        "Butter",
-                        "Sugar",
-                        "Flour",
-                        "Vanilla",
-                        "Sprinkles"
-                    ],
-                    "recommends": 0
-                },
-                {
-                    "comments": [
-                        "Good!",
-                        "I think it's great!",
-                        "I don't like it!"
-                    ],
-                    "raters": 2,
-                    "directions": [
-                        "add the flour",
-                        "add the sugar",
-                        "add the butter"
-                    ],
-                    "author": "TestAuthor",
-                    "name": "TestTitle",
-                    "cook time": 10,
-                    "ingredients": [
-                        "butter",
-                        " flour",
-                        " sugar"
-                    ],
-                    "recommends": 1
                 }
             ],
-            "description": "recipes that use butter",
-            "title": "Butter recipes"
+            "description": "Cool recipes",
+            "title": "Recs"
         },
         {
             "recipes": [{
-                "comments": ["It's okay"],
-                "raters": 1,
+                "comments": [],
+                "raters": 0,
                 "directions": [
-                    "add the milk",
-                    " add the butter",
-                    " add the bread"
+                    "Preheat oven to 325 degrees F. Line 2 large baking sheets with parchment paper.",
+                    "In a medium bowl, beat together butter and 2/3 cup sugar until combined.",
+                    "Add in flour and blend well, then blend in the vanilla.",
+                    "Using a cookie scoop, roll the dough into 1-inch balls.",
+                    "Transfer to the baking sheets 2 inches apart and flatten.",
+                    "Bake for 14-16 minutes.",
+                    "Let rest on the baking sheets for at least 10-15 minutes",
+                    "Enjoy!"
                 ],
-                "author": "Test Another Author",
-                "name": "Test Another Title",
-                "cook time": 1,
+                "author": "Bellyfull",
+                "name": "Easy Sugar Cookies",
+                "cook time": 15,
                 "ingredients": [
-                    "butter",
-                    " milk",
-                    " bread"
+                    "Butter",
+                    "Sugar",
+                    "Flour",
+                    "Vanilla",
+                    "Sprinkles"
                 ],
                 "recommends": 0
             }],
-            "description": "recipes with no butter",
-            "title": "No butter recipes"
+            "description": "Desc",
+            "title": "Cool"
         }
     ],
     "all recipes": [
         {
-            "comments": [
-                "Good!",
-                "I think it's great!",
-                "I don't like it!"
-            ],
-            "raters": 2,
+            "comments": ["Well done!"],
+            "raters": 3,
             "directions": [
-                "add the flour",
-                "add the sugar",
-                "add the butter"
+                "add the butter",
+                "add the things"
             ],
-            "author": "TestAuthor",
-            "name": "TestTitle",
+            "author": "Author",
+            "name": "PersonalRecipe1",
             "cook time": 10,
             "ingredients": [
                 "butter",
-                " flour",
-                " sugar"
+                " things"
             ],
             "recommends": 1
         },
         {
-            "comments": ["It's okay"],
-            "raters": 2,
-            "directions": [
-                "add the milk",
-                " add the butter",
-                " add the bread"
+            "comments": [
+                "Nice!",
+                "Well done!"
             ],
-            "author": "Test Another Author",
-            "name": "Test Another Title",
+            "raters": 0,
+            "directions": [
+                "add the butter",
+                "add the milk",
+                "add the bread"
+            ],
+            "author": "AnotherAuthor",
+            "name": "AnotherRecipe",
             "cook time": 1,
             "ingredients": [
                 "butter",
-                " milk",
-                " bread"
+                "milk",
+                "bread"
             ],
-            "recommends": 1
+            "recommends": 0
         },
         {
-            "comments": [],
-            "raters": 2,
+            "comments": ["Very good job!"],
+            "raters": 1,
             "directions": [
                 "Preheat the over to 325F.",
                 "In a large bowl take your ripe bananas, eggs and oil and mash.",
@@ -178,7 +151,7 @@
             "recommends": 1
         },
         {
-            "comments": ["Well done!"],
+            "comments": [],
             "raters": 0,
             "directions": [
                 "Preheat oven to 325 degrees F. Line 2 large baking sheets with parchment paper.",
@@ -205,44 +178,41 @@
     ],
     "personal recipes": [
         {
-            "comments": [
-                "Good!",
-                "I think it's great!",
-                "I don't like it!"
-            ],
-            "raters": 2,
+            "comments": ["Well done!"],
+            "raters": 3,
             "directions": [
-                "add the flour",
-                "add the sugar",
-                "add the butter"
+                "add the butter",
+                "add the things"
             ],
-            "author": "TestAuthor",
-            "name": "TestTitle",
+            "author": "Author",
+            "name": "PersonalRecipe1",
             "cook time": 10,
             "ingredients": [
                 "butter",
-                " flour",
-                " sugar"
+                " things"
             ],
             "recommends": 1
         },
         {
-            "comments": ["It's okay"],
-            "raters": 2,
-            "directions": [
-                "add the milk",
-                " add the butter",
-                " add the bread"
+            "comments": [
+                "Nice!",
+                "Well done!"
             ],
-            "author": "Test Another Author",
-            "name": "Test Another Title",
+            "raters": 0,
+            "directions": [
+                "add the butter",
+                "add the milk",
+                "add the bread"
+            ],
+            "author": "AnotherAuthor",
+            "name": "AnotherRecipe",
             "cook time": 1,
             "ingredients": [
                 "butter",
-                " milk",
-                " bread"
+                "milk",
+                "bread"
             ],
-            "recommends": 1
+            "recommends": 0
         }
     ]
 }

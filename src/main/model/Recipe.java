@@ -141,14 +141,12 @@ public class Recipe implements Writable {
     // EFFECTS: sets the totalRaters of the recipe to input
     public void setRaters(int totalRaters) {
         this.totalRaters = totalRaters;
-        // TODO: make test
     }
 
     // MODIFIES: this
     // EFFECTS: sets the recommends of the recipe to input
     public void setRecommends(int recommends) {
         this.recommends = recommends;
-        // TODO: make test
     }
 
     // EFFECTS: returns all details of Recipe as a JSONObject

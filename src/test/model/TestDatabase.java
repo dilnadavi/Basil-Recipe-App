@@ -149,6 +149,11 @@ public class TestDatabase {
         assertNull(database.lookUp("Crepe", "Foo", 4));
         assertNull(database.lookUp("Crep", "Foo", 5));
         assertNull(database.lookUp("Crepe", "F", 5));
+
+        assertEquals(2, database.getRecipeDatabase().size());
+        database.addUserRecipeDatabase(crepe);
+        assertEquals(1, database.getUserRecipeDatabase().size());
+        assertEquals(2, database.getRecipeDatabase().size());
     }
 
 }

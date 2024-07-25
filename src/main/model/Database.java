@@ -39,7 +39,6 @@ public class Database implements Writable {
             this.allrecipes.add(recipe);
         }
     }
-    //TODO: add tests
 
     // MODIFIES: this
     // EFFECTS: If there exists the same recipe in all recipes, simply adds
@@ -49,12 +48,15 @@ public class Database implements Writable {
     public void addUserRecipeDatabase(Recipe recipe) {
         boolean sameRecipe = false;
         for (Recipe r: allrecipes) {
-            sameRecipe = recipe.equals(r);
+            boolean confirmedSame = recipe.equals(r);
+            if (confirmedSame) {
+                sameRecipe = true;
+            }
         }
         if (!userrecipes.contains(recipe) && !sameRecipe) {
             this.userrecipes.add(recipe);
             this.allrecipes.add(recipe);
-        } else if (!userrecipes.contains(recipe) && sameRecipe) {
+        } else if (!userrecipes.contains(recipe)) {
             Recipe equalRecipe = lookUp(recipe.getTitle(), recipe.getAuthor(), recipe.getCookTime());
             this.userrecipes.add(equalRecipe);
         }
@@ -138,7 +140,7 @@ public class Database implements Writable {
         return null;
     }
 
-
+    // EFFECTS: returns all components of the database as a JSONObject
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

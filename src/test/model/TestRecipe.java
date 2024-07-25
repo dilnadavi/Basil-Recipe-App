@@ -104,6 +104,10 @@ public class TestRecipe {
         r1.addReccomend(false);
         r1.addReccomend(true);
         assertEquals(7, r1.getTotalRaters());
+        r1.setRaters(10);
+        r1.setRecommends(7);
+        assertEquals(10, r1.getTotalRaters());
+        assertEquals(7, r1.getRecommends());
     }
 
     @Test
@@ -202,7 +206,6 @@ public class TestRecipe {
 
         public DifferentRecipeClass(String title, String author, int cookTime) {
             super(title, author, cookTime);
-            // TODO: ask TA IF THIS IS OKAY
         }
 
     }

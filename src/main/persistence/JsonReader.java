@@ -51,7 +51,7 @@ public class JsonReader {
         return db;
     }
 
-   // MODIFIES: db
+    // MODIFIES: db
     // EFFECTS: parses personal recipes from JSON object and adds them to database
     private void addPersonalRecipes(Database db, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("personal recipes");
