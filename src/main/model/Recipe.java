@@ -165,6 +165,10 @@ public class Recipe implements Writable {
         return json;
     }
 
+    public String toString() {
+        return title;
+    }
+
     // EFFECTS: returns ingredients in this recipe as a JSON array
     private JSONArray ingredientsToJson() {
         JSONArray jsonArray = new JSONArray();
