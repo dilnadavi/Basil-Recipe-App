@@ -52,7 +52,6 @@ public class Graphics extends JFrame implements ActionListener {
         this.setLayout(null);
 
         panel1 = new JPanel();
-        panel1.setBackground(Color.white);
         panel2 = new JPanel();
         panel3 = new JPanel();
         panel4 = new JPanel();
@@ -62,15 +61,29 @@ public class Graphics extends JFrame implements ActionListener {
         tabbedpane.add("Main", panel1);
         tabbedpane.add("Search Database", panel2);
         tabbedpane.add("Create Personal Recipe", panel3);
-        tabbedpane.add("View Personal Recipes", panel4);
+        tabbedpane.add("View All Recipes", panel4);
 
         this.add(tabbedpane);
         this.setVisible(true);
 
+        mainMenu();
         addButtons();
         createRecipe();
-        //viewPersonalRecipes();
         testScroll();
+    }
+
+    public void mainMenu() {
+        JButton load = new JButton("Load File");
+        load.setBounds(300, 10, 200, 40);
+        panel1.add(load);
+        load.setActionCommand("loadRecipes");
+        load.addActionListener(this);
+
+        JButton save = new JButton("Save File");
+        save.setBounds(300, 10, 200, 40);
+        panel1.add(save);
+        save.setActionCommand("saveRecipes");
+        save.addActionListener(this);
     }
 
     public void init() {
@@ -81,26 +94,11 @@ public class Graphics extends JFrame implements ActionListener {
         preloadRecipe();
     }
 
-    public void viewPersonalRecipes() {
-        JButton srch = new JButton("Something");
-        srch.setBounds(300, 10, 200, 40);
-        panel4.add(srch);
-
-        ArrayList<Recipe> foods = database.getUserRecipeDatabase();
-
-        Recipe[] recipes = new Recipe[foods.size()];
-        // Assuming there is data in your list
-        JList<Recipe> list = new JList<>(foods.toArray(recipes));
-        panel4.add(list);
-    }
-
     public void addButtons() {
         JButton srch = new JButton("Search Database");
         srch.setBounds(300, 10, 200, 40);
         panel2.add(srch);
-        ArrayList<Recipe> foods = database.getUserRecipeDatabase();
-        foods.add(new Recipe("title", "Author", 1));
-        foods.add(new Recipe("title1", "Author1", 1));
+        ArrayList<Recipe> foods = database.getRecipeDatabase();
 
         Recipe[] recipes = new Recipe[foods.size()];
         // Assuming there is data in your list
@@ -156,6 +154,7 @@ public class Graphics extends JFrame implements ActionListener {
     }
 
     public void testScroll() {
+        JPanel panel = new JPanel();
         JList<Recipe> personalRecipes = new JList<>();
         model = new DefaultListModel<>();
         JLabel label = new JLabel();
@@ -172,7 +171,8 @@ public class Graphics extends JFrame implements ActionListener {
         });
 
         splitPane.setLeftComponent(new JScrollPane(personalRecipes));
-        panel4.add(label);
+        splitPane.setRightComponent(panel);
+        panel.add(label);
         panel4.add(splitPane);
     }
 
@@ -183,9 +183,16 @@ public class Graphics extends JFrame implements ActionListener {
             database.addDefaultRecipeDatabase(newRecipe);
             database.addUserRecipeDatabase(newRecipe);
             model.addElement(newRecipe);
+            JLabel success = new JLabel();
+            success.setText("Success!");
+            panel3.add(success);
             repaint();
             panel2.repaint();
             panel2.revalidate();
+        } else if (e.getActionCommand().equals("loadRecipes")) {
+            loadDatabase();
+        } else if (e.getActionCommand().equals("saveRecipes")) {
+            saveDatabase();
         }
     }
 
@@ -196,6 +203,35 @@ public class Graphics extends JFrame implements ActionListener {
             database = preReader.read();
         } catch (IOException e) {
             //
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads the previously saved Database from file
+    private void loadDatabase() {
+        try {
+            database = jsonReader.read();
+            ArrayList<Recipe> loadedUserRecipes = database.getUserRecipeDatabase();
+            for (Recipe r: loadedUserRecipes) {
+                if (!model.contains(r)) {
+                    model.addElement(r);
+                }
+            }
+            repaint();
+            revalidate();
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
+    }
+
+    // EFFECTS: saves the current Database to file
+    private void saveDatabase() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(database);
+            jsonWriter.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
         }
     }
 }

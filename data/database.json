@@ -1,102 +1,19 @@
 {
-    "user collections": [
-        {
-            "recipes": [
-                {
-                    "comments": [],
-                    "raters": 0,
-                    "directions": ["hi"],
-                    "author": "author",
-                    "name": "hewwo",
-                    "cook time": 10,
-                    "ingredients": ["butter"],
-                    "recommends": 0
-                },
-                {
-                    "comments": [],
-                    "raters": 0,
-                    "directions": [
-                        "add butter",
-                        "add milk"
-                    ],
-                    "author": "anotherauthor",
-                    "name": "anothertitle",
-                    "cook time": 1,
-                    "ingredients": [
-                        "butter",
-                        "milk",
-                        "break"
-                    ],
-                    "recommends": 0
-                }
-            ],
-            "description": "desc",
-            "title": "NewCollection"
-        },
-        {
-            "recipes": [{
-                "comments": [],
-                "raters": 0,
-                "directions": [
-                    "Preheat oven to 325 degrees F. Line 2 large baking sheets with parchment paper.",
-                    "In a medium bowl, beat together butter and 2/3 cup sugar until combined.",
-                    "Add in flour and blend well, then blend in the vanilla.",
-                    "Using a cookie scoop, roll the dough into 1-inch balls.",
-                    "Transfer to the baking sheets 2 inches apart and flatten.",
-                    "Bake for 14-16 minutes.",
-                    "Let rest on the baking sheets for at least 10-15 minutes",
-                    "Enjoy!"
-                ],
-                "author": "Bellyfull",
-                "name": "Easy Sugar Cookies",
-                "cook time": 15,
-                "ingredients": [
-                    "Butter",
-                    "Sugar",
-                    "Flour",
-                    "Vanilla",
-                    "Sprinkles"
-                ],
-                "recommends": 0
-            }],
-            "description": "desc",
-            "title": "AnotherCollection"
-        }
-    ],
+    "user collections": [],
     "all recipes": [
-        {
-            "comments": [
-                "Well done!",
-                "Tried it out!"
-            ],
-            "raters": 2,
-            "directions": ["hi"],
-            "author": "author",
-            "name": "hewwo",
-            "cook time": 10,
-            "ingredients": ["butter"],
-            "recommends": 1
-        },
         {
             "comments": [],
             "raters": 0,
-            "directions": [
-                "add butter",
-                "add milk"
-            ],
-            "author": "anotherauthor",
-            "name": "anothertitle",
-            "cook time": 1,
-            "ingredients": [
-                "butter",
-                "milk",
-                "break"
-            ],
+            "directions": [],
+            "author": "Default Author",
+            "name": "Default Title",
+            "cook time": 0,
+            "ingredients": [],
             "recommends": 0
         },
         {
             "comments": [],
-            "raters": 2,
+            "raters": 1,
             "directions": [
                 "Preheat the over to 325F.",
                 "In a large bowl take your ripe bananas, eggs and oil and mash.",
@@ -126,7 +43,7 @@
         },
         {
             "comments": [],
-            "raters": 1,
+            "raters": 0,
             "directions": [
                 "Preheat oven to 325 degrees F. Line 2 large baking sheets with parchment paper.",
                 "In a medium bowl, beat together butter and 2/3 cup sugar until combined.",
@@ -147,39 +64,17 @@
                 "Vanilla",
                 "Sprinkles"
             ],
-            "recommends": 1
-        }
-    ],
-    "personal recipes": [
-        {
-            "comments": [
-                "Well done!",
-                "Tried it out!"
-            ],
-            "raters": 2,
-            "directions": ["hi"],
-            "author": "author",
-            "name": "hewwo",
-            "cook time": 10,
-            "ingredients": ["butter"],
-            "recommends": 1
-        },
-        {
-            "comments": [],
-            "raters": 0,
-            "directions": [
-                "add butter",
-                "add milk"
-            ],
-            "author": "anotherauthor",
-            "name": "anothertitle",
-            "cook time": 1,
-            "ingredients": [
-                "butter",
-                "milk",
-                "break"
-            ],
             "recommends": 0
         }
-    ]
+    ],
+    "personal recipes": [{
+        "comments": [],
+        "raters": 0,
+        "directions": [],
+        "author": "Default Author",
+        "name": "Default Title",
+        "cook time": 0,
+        "ingredients": [],
+        "recommends": 0
+    }]
 }
