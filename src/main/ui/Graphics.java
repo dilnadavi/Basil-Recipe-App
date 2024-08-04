@@ -4,12 +4,15 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -90,6 +93,11 @@ public class Graphics extends JFrame implements ActionListener {
         panel1.add(save);
         save.setActionCommand("saveRecipes");
         save.addActionListener(this);
+
+        JLabel image = new JLabel();
+        image.setIcon(new ImageIcon("./data/icon.png"));
+        image.setMinimumSize(new Dimension(10,20));
+        panel1.add(image);
     }
 
     public void init() {
