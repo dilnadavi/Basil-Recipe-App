@@ -250,8 +250,9 @@ public class Recipe implements Writable {
     }
 
     public String printRecipe() {
-        return "<html><pre>Title: " + getTitle() + "\nAuthor: " + getAuthor() 
-            + "\nDirections:" + printList(directions) + "\n<html><pre>";
+        return "<html><pre>Title: " + getTitle() + "\nAuthor: " + getAuthor() + "\nCooktime: " + getCookTime()
+            + "\n\nIngredients:" + printList(ingredients) + "\n\nDirections:" 
+            + printList(directions) + "\n<html><pre>";
     }
 
     public String printList(ArrayList<String> list) {

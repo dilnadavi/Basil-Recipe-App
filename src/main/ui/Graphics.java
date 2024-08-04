@@ -42,6 +42,12 @@ public class Graphics extends JFrame implements ActionListener {
     private static final String JSON_STORE = "./data/database.json";
     private static final String JSON_STORE2 = "./data/preloaded.json";
 
+    private JTextField title;
+    private JTextField author;
+    private JTextField cookTime;
+    private JTextField ingredients;
+    private JTextField directions;
+
     public Graphics() throws FileNotFoundException {
         init();
         this.setTitle("Basil");
@@ -111,37 +117,37 @@ public class Graphics extends JFrame implements ActionListener {
     public void createRecipe() {
         JLabel tlabel = new JLabel("Title:");
         panel3.add(tlabel);
-        JTextField title = new JTextField(65);
+        title = new JTextField(65);
         title.setBounds(200, 200, 200, 200);
         title.setText("Default Title");
         panel3.add(title);
 
         JLabel authorLabel = new JLabel("Author:");
         panel3.add(authorLabel);
-        JTextField author = new JTextField(63);
+        author = new JTextField(63);
         author.setBounds(200, 400, 200, 200);
         author.setText("Default Author");
         panel3.add(author);
 
         JLabel cookTimeLabel = new JLabel("Cooktime:");
         panel3.add(cookTimeLabel);
-        JTextField cookTime = new JTextField(60);
+        cookTime = new JTextField(60);
         cookTime.setBounds(200, 400, 200, 200);
         cookTime.setText("0");
         panel3.add(cookTime);
 
         JLabel ingrLabel = new JLabel("Ingredients:");
         panel3.add(ingrLabel);
-        JTextField ingredients = new JTextField(60);
+        ingredients = new JTextField(60);
         ingredients.setBounds(200, 400, 200, 200);
         ingredients.setText("Type ingredients separated by commas");
         panel3.add(ingredients);
 
         JLabel dirLabel = new JLabel("Directions:");
         panel3.add(dirLabel);
-        JTextField directions = new JTextField(60);
+        directions = new JTextField(60);
         directions.setBounds(200, 400, 200, 200);
-        directions.setText("Type directions separated by :");
+        directions.setText("Type directions separated by : here");
         panel3.add(directions);
 
         JButton add = new JButton("Add to Database");
@@ -149,8 +155,6 @@ public class Graphics extends JFrame implements ActionListener {
         add.setBounds(300, 10, 200, 40);
         panel3.add(add);
         add.addActionListener(this);
-
-        newRecipe = new Recipe(title.getText(), author.getText(), Integer.parseInt(cookTime.getText()));
     }
 
     public void testScroll() {
@@ -180,7 +184,9 @@ public class Graphics extends JFrame implements ActionListener {
     // This is the method that is called when the the JButton btn is clicked
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("addRecipe")) {
-            database.addDefaultRecipeDatabase(newRecipe);
+            newRecipe = new Recipe(title.getText(), author.getText(), Integer.parseInt(cookTime.getText()));
+            addIngredientsToRecipe(newRecipe);
+            addDirectionsToRecipe(newRecipe);
             database.addUserRecipeDatabase(newRecipe);
             model.addElement(newRecipe);
             JLabel success = new JLabel();
@@ -193,6 +199,26 @@ public class Graphics extends JFrame implements ActionListener {
             loadDatabase();
         } else if (e.getActionCommand().equals("saveRecipes")) {
             saveDatabase();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: prompts user for listed ingredients, and adds the ingredients to
+    //          the recipe, with splitting based on ','
+    public void addIngredientsToRecipe(Recipe recipe) {
+        String[] arrOfIngredient = ingredients.getText().split(",");
+        for (String ingredient: arrOfIngredient) {
+            recipe.addIngredient(ingredient);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: prompts user for listed ingredients, and adds the ingredients to
+    //          the recipe, with splitting based on ','
+    public void addDirectionsToRecipe(Recipe recipe) {
+        String[] arrOfDirection = directions.getText().split(":");
+        for (String direction: arrOfDirection) {
+            recipe.addDirection(direction);
         }
     }
 
