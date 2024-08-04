@@ -248,4 +248,8 @@ public class Recipe implements Writable {
         }
         return true;
     }
+
+    public String printRecipe() {
+        return "Title: " + getTitle() + "\n" + "Author: " + getAuthor() + "\n";
+    }
 }

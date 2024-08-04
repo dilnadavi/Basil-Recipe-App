@@ -182,4 +182,14 @@ public class Database implements Writable {
 
         return jsonArray;
     }
+
+    // EFFECTS: lists all the cars in list and their respective details
+    public String printRecipes(ArrayList<Recipe> recipes) {
+        String print = "";
+        for (int i = 0; i < recipes.size(); i++) {
+            print += "Car #" + i + "\n" + recipes.get(i).getTitle()
+                    + "\n" + recipes.get(i).getAuthor();
+        }
+        return print;
+    }
 }

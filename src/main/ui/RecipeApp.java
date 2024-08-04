@@ -45,6 +45,10 @@ public class RecipeApp {
         }
         System.out.println("Thank you for using Basil! :)");
     }
+    
+    public Database getDatabase() {
+        return database;
+    }
 
     //MODIFIES: this
     //EFFECTS: intantiates the database

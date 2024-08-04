@@ -5,20 +5,27 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import model.Database;
 
 import model.Recipe;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 public class Graphics extends JFrame implements ActionListener {
     private JPanel panel1;
@@ -27,10 +34,16 @@ public class Graphics extends JFrame implements ActionListener {
     private JPanel panel4;
     private JFrame frame;
     private Recipe newRecipe;
-    private RecipeApp recipeApp;
+    private Database database;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
+    private JsonReader preReader;
+    private DefaultListModel<Recipe> model;
+    private static final String JSON_STORE = "./data/database.json";
+    private static final String JSON_STORE2 = "./data/preloaded.json";
 
     public Graphics() throws FileNotFoundException {
-        recipeApp = new RecipeApp();
+        init();
         this.setTitle("Basil");
         this.setSize(800, 600);
         this.setLocationRelativeTo(null);
@@ -56,20 +69,36 @@ public class Graphics extends JFrame implements ActionListener {
 
         addButtons();
         createRecipe();
-        viewPersonalRecipes();
+        //viewPersonalRecipes();
+        testScroll();
+    }
+
+    public void init() {
+        database = new Database();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+        preReader = new JsonReader(JSON_STORE2);
+        preloadRecipe();
     }
 
     public void viewPersonalRecipes() {
         JButton srch = new JButton("Something");
         srch.setBounds(300, 10, 200, 40);
         panel4.add(srch);
+
+        ArrayList<Recipe> foods = database.getUserRecipeDatabase();
+
+        Recipe[] recipes = new Recipe[foods.size()];
+        // Assuming there is data in your list
+        JList<Recipe> list = new JList<>(foods.toArray(recipes));
+        panel4.add(list);
     }
 
     public void addButtons() {
         JButton srch = new JButton("Search Database");
         srch.setBounds(300, 10, 200, 40);
         panel2.add(srch);
-        ArrayList<Recipe> foods = new ArrayList<>();
+        ArrayList<Recipe> foods = database.getUserRecipeDatabase();
         foods.add(new Recipe("title", "Author", 1));
         foods.add(new Recipe("title1", "Author1", 1));
 
@@ -123,13 +152,49 @@ public class Graphics extends JFrame implements ActionListener {
         panel3.add(add);
         add.addActionListener(this);
 
-        newRecipe = new Recipe(tlabel.getText(), authorLabel.getText(), Integer.parseInt(cookTime.getText()));
+        newRecipe = new Recipe(title.getText(), author.getText(), Integer.parseInt(cookTime.getText()));
+    }
+
+    public void testScroll() {
+        JList<Recipe> personalRecipes = new JList<>();
+        model = new DefaultListModel<>();
+        JLabel label = new JLabel();
+        personalRecipes.setModel(model);
+        JSplitPane splitPane = new JSplitPane();
+
+        for (Recipe r: database.getRecipeDatabase()) {
+            model.addElement(r);
+        }
+
+        personalRecipes.getSelectionModel().addListSelectionListener(e -> {
+            Recipe p = personalRecipes.getSelectedValue();
+            label.setText(p.printRecipe());
+        });
+
+        splitPane.setLeftComponent(new JScrollPane(personalRecipes));
+        panel4.add(label);
+        panel4.add(splitPane);
     }
 
     @Override
     // This is the method that is called when the the JButton btn is clicked
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("addRecipe")) {
+            database.addDefaultRecipeDatabase(newRecipe);
+            database.addUserRecipeDatabase(newRecipe);
+            model.addElement(newRecipe);
+            repaint();
+            panel2.repaint();
+            panel2.revalidate();
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads pre-loaded recipes from file into the database
+    private void preloadRecipe() {
+        try {
+            database = preReader.read();
+        } catch (IOException e) {
             //
         }
     }
