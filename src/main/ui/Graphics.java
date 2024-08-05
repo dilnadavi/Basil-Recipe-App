@@ -58,13 +58,13 @@ public class Graphics extends JFrame implements ActionListener {
     private JTextField cookTime;
     private JTextField ingredients;
     private JTextField directions;
+    private JLabel message;
 
     private DefaultTableModel sortermodel;
     private JTable searchTable;
     private TableRowSorter<TableModel> rowSorter;
     private JTextField jtfFilter;
     private JButton jbtFilter;
-    private DefaultTableModel tableModel;
 
     public Graphics() throws FileNotFoundException {
         init();
@@ -79,7 +79,7 @@ public class Graphics extends JFrame implements ActionListener {
         panel2 = new JPanel();
         panel3 = new JPanel();
         panel4 = new JPanel();
-        
+
         JTabbedPane tabbedpane = new JTabbedPane();
         tabbedpane.setBounds(0, 0, 800, 600);
         tabbedpane.add("Main", panel1);
@@ -123,92 +123,43 @@ public class Graphics extends JFrame implements ActionListener {
         preloadRecipe();
     }
 
+    // FROM TestTableSortFilter
     public void addButtons() {
-        String[] columnNames = { "Title", "Author", "Cooktime", "Ingredients"};
+        String[] columnNames = { "Title", "Author", "Cooktime", "Ingredients" };
         ArrayList<Recipe> data = database.getRecipeDatabase();
-        Object[][] objectArray = convertTo2DArray(data);
-        sortermodel = new DefaultTableModel(objectArray, columnNames);
-        searchTable = new JTable(sortermodel);
+        Object[][] objectArray = recipe2dArray(data);
+        DefaultTableModel sortermodel = new DefaultTableModel(objectArray, columnNames);
+        JTable searchTable = new JTable(sortermodel);
         rowSorter = new TableRowSorter<>(searchTable.getModel());
         jtfFilter = new JTextField(20);
 
         searchTable.setRowSorter(rowSorter);
         JPanel panel = new JPanel(new BorderLayout());
 
-        panel.add(new JLabel("Specify a word to match:"),
+        panel.add(new JLabel("Search database for:"),
                 BorderLayout.WEST);
         panel.add(jtfFilter, BorderLayout.CENTER);
 
         setLayout(new BorderLayout());
         add(panel, BorderLayout.SOUTH);
-        // add(new JScrollPane(searchTable), BorderLayout.SOUTH);
         panel.add(new JScrollPane(searchTable), BorderLayout.SOUTH);
         panel2.add(panel);
 
-        tableModel = (DefaultTableModel) searchTable.getModel();
-
-        jtfFilter.getDocument().addDocumentListener(new DocumentListener() {
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                String text = jtfFilter.getText();
-
-                if (text.trim().length() == 0) {
-                    rowSorter.setRowFilter(null);
-                } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-                }
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                String text = jtfFilter.getText();
-
-                if (text.trim().length() == 0) {
-                    rowSorter.setRowFilter(null);
-                } else {
-                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
-                }
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods,
-                                                                               // choose Tools | Templates.
-            }
-
-        });
-
-        // JButton srch = new JButton("Search Database");
-        // srch.setBounds(300, 10, 200, 40);
-        // panel2.add(srch);
-        // ArrayList<Recipe> foods = database.getRecipeDatabase();
-
-        // Recipe[] recipes = new Recipe[foods.size()];
-        // // Assuming there is data in your list
-        // JList<Recipe> list = new JList<>(foods.toArray(recipes));
-        // panel2.add(list);
-
-        // srch.addActionListener(new SearchActionListener());
+        jtfFilter.getDocument().addDocumentListener(new RecipeDocumentListener(jtfFilter, rowSorter));
     }
 
-    private static Object[][] convertTo2DArray(ArrayList<Recipe> recipes) {
-        // Define the number of columns (Title, Author, Cook-time)
-        int numColumns = 4;
+    public static Object[][] recipe2dArray(ArrayList<Recipe> recipes) {
+        Object[][] arrOfRecipes = new Object[recipes.size()][4];
 
-        // Initialize the 2D array with the number of rows equal to the size of the recipes list
-        Object[][] array = new Object[recipes.size()][numColumns];
-
-        // Fill the 2D array with data
-        for (int i = 0; i < recipes.size(); i++) {
-            Recipe recipe = recipes.get(i);
-            array[i][0] = recipe.getTitle();      // Title
-            array[i][1] = recipe.getAuthor();     // Author
-            array[i][2] = recipe.getCookTime();   // Cook-time
-            array[i][3] = recipe.printList(recipe.getIngredients());   // Cook-time
+        for (int current = 0; current < recipes.size(); current++) {
+            Recipe recipe = recipes.get(current);
+            arrOfRecipes[current][0] = recipe.getTitle();
+            arrOfRecipes[current][1] = recipe.getAuthor();
+            arrOfRecipes[current][2] = recipe.getCookTime();
+            arrOfRecipes[current][3] = recipe.printList(recipe.getIngredients());
         }
 
-        return array;
+        return arrOfRecipes;
     }
 
     public void createRecipe() {
@@ -252,6 +203,9 @@ public class Graphics extends JFrame implements ActionListener {
         add.setBounds(300, 10, 200, 40);
         panel3.add(add);
         add.addActionListener(this);
+
+        message = new JLabel("No recipe added.");
+        panel3.add(message);
     }
 
     public void testScroll() {
@@ -275,6 +229,13 @@ public class Graphics extends JFrame implements ActionListener {
         splitPane.setRightComponent(panel);
         panel.add(label);
         panel4.add(splitPane);
+
+        JButton add = new JButton("Remove all user recipes.");
+        add.setActionCommand("removeRecipes");
+        add.setBounds(300, 10, 200, 40);
+        panel4.add(add);
+        add.addActionListener(this);
+        
     }
 
     @Override
@@ -282,20 +243,44 @@ public class Graphics extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("addRecipe")) {
             newRecipe = new Recipe(title.getText(), author.getText(), Integer.parseInt(cookTime.getText()));
-            addIngredientsToRecipe(newRecipe);
-            addDirectionsToRecipe(newRecipe);
-            database.addUserRecipeDatabase(newRecipe);
-            model.addElement(newRecipe);
-            JLabel success = new JLabel();
-            success.setText("Success!");
-            panel3.add(success);
-            panel2.removeAll();
-            addButtons();
+            if (checkNewRecipe(newRecipe) && !model.contains(newRecipe)) {
+                addIngredientsToRecipe(newRecipe);
+                addDirectionsToRecipe(newRecipe);
+                database.addUserRecipeDatabase(newRecipe);
+                model.addElement(newRecipe);
+                panel2.removeAll();
+                addButtons();
+                message.setText("Success!");
+            } else if (model.contains(newRecipe)) {
+                message.setText("Duplicate recipe!");
+            } else {
+                message.setText("Please customize ALL fields and set the cook-time greater than 0.");
+            }
         } else if (e.getActionCommand().equals("loadRecipes")) {
             loadDatabase();
         } else if (e.getActionCommand().equals("saveRecipes")) {
             saveDatabase();
+        } else if (e.getActionCommand().equals("removeRecipes")) {
+            for (Recipe r: database.getUserRecipeDatabase()) {
+                model.removeElement(r);
+            }
+            database.getRecipeDatabase().removeAll(database.getUserRecipeDatabase());
+            database.resetDatabase();
+            panel2.removeAll();
+            addButtons();
         }
+    }
+
+    public boolean checkNewRecipe(Recipe recipe) {
+        String author = recipe.getAuthor();
+        String title = recipe.getTitle();
+        int cookTime = recipe.getCookTime();
+
+        if (title.equals("Default Title") || author.equals("Default Author") || cookTime < 1) {
+            return false;
+        }
+
+        return true;
     }
 
     // MODIFIES: this
