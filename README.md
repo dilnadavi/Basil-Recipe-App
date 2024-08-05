@@ -35,19 +35,18 @@ For my personal project, I wish to make a recipe-geared application. In the appl
 - You can generate the first required action related to the user story "adding multiple Xs to a Y" by going to the "Create Personal Recipe" tab, inputting information, and pressing "Add to Database".
 - You can generate the second required action related to the user story "adding multiple Xs to a Y" by going to "Search Database" and entering a word in the text-field to filter added recipes.
 - EXTRA ACTION: Remove all user recipes by clicking "Remove all user recipes" in the "View All Recipes" tab.
-- You can locate my visual component by clicking on the empty space under "Load File" and "Save File" buttons in the main tab to load the display picture.
+- You can locate my visual component by observing the space under "Load File" and "Save File" buttons in the main tab to view the display picture.
 - You can save the state of my application by clicking "Save file" in main tab.
 - You can reload the state of my application by clicking "Load file" in main tab.
 
 ## STEP-BY-STEP INSTRUCTIONS
 1. Launch the application
-2. Click on the empty space below the "Load File" and "Save File" buttons to display the menu image.
-3. Click "Create Personal Recipe", a background image is added here.
-4. Input a custom title and author, and a cook-time greater than 0.
-5. Press "Add to Database" and ensure the text shows "Success!". You have added a recipe to the database.
-6. Go to the "View All Recipes" tab and click on your added recipes.
-7. Go to "Search Database" tab. Filter out ingredients that have butter by entering "butter" into the Text Field.
-8. Go to main and save your file.
-9. Close the app.
-10. Run the application and load the file in the main screen. All panels should have your custom recipe.
-11. Go to "View All Recipes" and click "Remove all user recipes" to remove your submissions.
+2. Click "Create Personal Recipe", a background image is added here.
+3. Input a custom title and author, and a cook-time greater than 0.
+4. Press "Add to Database" and ensure the text shows "Success!". You have added a recipe to the database.
+5. Go to the "View All Recipes" tab and click on your added recipes.
+6. Go to "Search Database" tab. Filter out ingredients that have butter by entering "butter" into the Text Field.
+7. Go to main and save your file.
+8. Close the app.
+9. Run the application and load the file in the main screen. All panels should have your custom recipe.
+10. Go to "View All Recipes" and click "Remove all user recipes" to remove your submissions.

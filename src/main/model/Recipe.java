@@ -165,6 +165,7 @@ public class Recipe implements Writable {
         return json;
     }
 
+    // EFFECTS: returns the title as the string (for GUI)
     public String toString() {
         return title;
     }
@@ -249,12 +250,14 @@ public class Recipe implements Writable {
         return true;
     }
 
+    // EFFECTS: prints all the information of the recipe properly HTML formatted
     public String printRecipe() {
         return "<html><pre>Title: " + getTitle() + "\nAuthor: " + getAuthor() + "\nCooktime: " + getCookTime()
             + "\n\nIngredients:" + printList(ingredients) + "\n\nDirections:" 
             + printList(directions) + "\n<html><pre>";
     }
 
+    // EFFECTS: prints each item in a list array in individual lines
     public String printList(ArrayList<String> list) {
         String stringSoFar = "";
         for (String item: list) {
