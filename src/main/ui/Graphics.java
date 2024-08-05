@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -22,7 +23,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import model.Database;
 
@@ -51,6 +59,13 @@ public class Graphics extends JFrame implements ActionListener {
     private JTextField ingredients;
     private JTextField directions;
 
+    private DefaultTableModel sortermodel;
+    private JTable searchTable;
+    private TableRowSorter<TableModel> rowSorter;
+    private JTextField jtfFilter;
+    private JButton jbtFilter;
+    private DefaultTableModel tableModel;
+
     public Graphics() throws FileNotFoundException {
         init();
         this.setTitle("Basil");
@@ -64,7 +79,7 @@ public class Graphics extends JFrame implements ActionListener {
         panel2 = new JPanel();
         panel3 = new JPanel();
         panel4 = new JPanel();
-
+        
         JTabbedPane tabbedpane = new JTabbedPane();
         tabbedpane.setBounds(0, 0, 800, 600);
         tabbedpane.add("Main", panel1);
@@ -76,9 +91,9 @@ public class Graphics extends JFrame implements ActionListener {
         this.setVisible(true);
 
         mainMenu();
-        addButtons();
         createRecipe();
         testScroll();
+        addButtons();
     }
 
     public void mainMenu() {
@@ -96,7 +111,7 @@ public class Graphics extends JFrame implements ActionListener {
 
         JLabel image = new JLabel();
         image.setIcon(new ImageIcon("./data/icon.png"));
-        image.setMinimumSize(new Dimension(10,20));
+        image.setMinimumSize(new Dimension(10, 20));
         panel1.add(image);
     }
 
@@ -109,17 +124,91 @@ public class Graphics extends JFrame implements ActionListener {
     }
 
     public void addButtons() {
-        JButton srch = new JButton("Search Database");
-        srch.setBounds(300, 10, 200, 40);
-        panel2.add(srch);
-        ArrayList<Recipe> foods = database.getRecipeDatabase();
+        String[] columnNames = { "Title", "Author", "Cooktime", "Ingredients"};
+        ArrayList<Recipe> data = database.getRecipeDatabase();
+        Object[][] objectArray = convertTo2DArray(data);
+        sortermodel = new DefaultTableModel(objectArray, columnNames);
+        searchTable = new JTable(sortermodel);
+        rowSorter = new TableRowSorter<>(searchTable.getModel());
+        jtfFilter = new JTextField(20);
 
-        Recipe[] recipes = new Recipe[foods.size()];
-        // Assuming there is data in your list
-        JList<Recipe> list = new JList<>(foods.toArray(recipes));
-        panel2.add(list);
+        searchTable.setRowSorter(rowSorter);
+        JPanel panel = new JPanel(new BorderLayout());
 
-        srch.addActionListener(new SearchActionListener());
+        panel.add(new JLabel("Specify a word to match:"),
+                BorderLayout.WEST);
+        panel.add(jtfFilter, BorderLayout.CENTER);
+
+        setLayout(new BorderLayout());
+        add(panel, BorderLayout.SOUTH);
+        // add(new JScrollPane(searchTable), BorderLayout.SOUTH);
+        panel.add(new JScrollPane(searchTable), BorderLayout.SOUTH);
+        panel2.add(panel);
+
+        tableModel = (DefaultTableModel) searchTable.getModel();
+
+        jtfFilter.getDocument().addDocumentListener(new DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                String text = jtfFilter.getText();
+
+                if (text.trim().length() == 0) {
+                    rowSorter.setRowFilter(null);
+                } else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                String text = jtfFilter.getText();
+
+                if (text.trim().length() == 0) {
+                    rowSorter.setRowFilter(null);
+                } else {
+                    rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods,
+                                                                               // choose Tools | Templates.
+            }
+
+        });
+
+        // JButton srch = new JButton("Search Database");
+        // srch.setBounds(300, 10, 200, 40);
+        // panel2.add(srch);
+        // ArrayList<Recipe> foods = database.getRecipeDatabase();
+
+        // Recipe[] recipes = new Recipe[foods.size()];
+        // // Assuming there is data in your list
+        // JList<Recipe> list = new JList<>(foods.toArray(recipes));
+        // panel2.add(list);
+
+        // srch.addActionListener(new SearchActionListener());
+    }
+
+    private static Object[][] convertTo2DArray(ArrayList<Recipe> recipes) {
+        // Define the number of columns (Title, Author, Cook-time)
+        int numColumns = 4;
+
+        // Initialize the 2D array with the number of rows equal to the size of the recipes list
+        Object[][] array = new Object[recipes.size()][numColumns];
+
+        // Fill the 2D array with data
+        for (int i = 0; i < recipes.size(); i++) {
+            Recipe recipe = recipes.get(i);
+            array[i][0] = recipe.getTitle();      // Title
+            array[i][1] = recipe.getAuthor();     // Author
+            array[i][2] = recipe.getCookTime();   // Cook-time
+            array[i][3] = recipe.printList(recipe.getIngredients());   // Cook-time
+        }
+
+        return array;
     }
 
     public void createRecipe() {
@@ -173,7 +262,7 @@ public class Graphics extends JFrame implements ActionListener {
         personalRecipes.setModel(model);
         JSplitPane splitPane = new JSplitPane();
 
-        for (Recipe r: database.getRecipeDatabase()) {
+        for (Recipe r : database.getRecipeDatabase()) {
             model.addElement(r);
         }
 
@@ -200,9 +289,8 @@ public class Graphics extends JFrame implements ActionListener {
             JLabel success = new JLabel();
             success.setText("Success!");
             panel3.add(success);
-            repaint();
-            panel2.repaint();
-            panel2.revalidate();
+            panel2.removeAll();
+            addButtons();
         } else if (e.getActionCommand().equals("loadRecipes")) {
             loadDatabase();
         } else if (e.getActionCommand().equals("saveRecipes")) {
@@ -212,20 +300,20 @@ public class Graphics extends JFrame implements ActionListener {
 
     // MODIFIES: this
     // EFFECTS: prompts user for listed ingredients, and adds the ingredients to
-    //          the recipe, with splitting based on ','
+    // the recipe, with splitting based on ','
     public void addIngredientsToRecipe(Recipe recipe) {
         String[] arrOfIngredient = ingredients.getText().split(",");
-        for (String ingredient: arrOfIngredient) {
+        for (String ingredient : arrOfIngredient) {
             recipe.addIngredient(ingredient);
         }
     }
 
     // MODIFIES: this
     // EFFECTS: prompts user for listed ingredients, and adds the ingredients to
-    //          the recipe, with splitting based on ','
+    // the recipe, with splitting based on ','
     public void addDirectionsToRecipe(Recipe recipe) {
         String[] arrOfDirection = directions.getText().split(":");
-        for (String direction: arrOfDirection) {
+        for (String direction : arrOfDirection) {
             recipe.addDirection(direction);
         }
     }
@@ -246,7 +334,7 @@ public class Graphics extends JFrame implements ActionListener {
         try {
             database = jsonReader.read();
             ArrayList<Recipe> loadedUserRecipes = database.getUserRecipeDatabase();
-            for (Recipe r: loadedUserRecipes) {
+            for (Recipe r : loadedUserRecipes) {
                 if (!model.contains(r)) {
                     model.addElement(r);
                 }
