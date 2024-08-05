@@ -21,3 +21,33 @@ For my personal project, I wish to make a recipe-geared application. In the appl
 - "I want to be able to watch videos on the site if the recipe has a respective video tutorial."
 - "I want to be able to save the personal recipes and collections that I have created on my own volition."
 - "I want to be able to load the recipes and collections that I have saved previously from a file."
+
+## Graphical User Interface
+**Relevant User Stories:**
+- "I want to add my own recipes onto the application's database through a form."
+- "I want a preview (title, author, cook-time, picture, rating) of recipes that incorporate my specified ingredients on one page when I press "Search" (view list of recipes).
+- "I want to be able to remove all the recipes I have inputted with one click."
+- "I want to be able to view all the recipes in the database by clicking through a list."
+- "I want to be able to save the personal recipes and collections that I have created on my own volition."
+- "I want to be able to load the recipes and collections that I have saved previously from a file."
+
+## Instructions for Grader
+- You can generate the first required action related to the user story "adding multiple Xs to a Y" by going to the "Create Personal Recipe" tab, inputting information, and pressing "Add to Database".
+- You can generate the second required action related to the user story "adding multiple Xs to a Y" by going to "Search Database" and entering a word in the text-field to filter added recipes.
+- EXTRA ACTION: Remove all user recipes by clicking "Remove all user recipes" in the "View All Recipes" tab.
+- You can locate my visual component by clicking on the empty space under "Load File" and "Save File" buttons in the main tab to load the display picture.
+- You can save the state of my application by clicking "Save file" in main tab.
+- You can reload the state of my application by clicking "Load file" in main tab.
+
+## STEP-BY-STEP INSTRUCTIONS
+1. Launch the application
+2. Click on the empty space below the "Load File" and "Save File" buttons to display the menu image.
+3. Click "Create Personal Recipe", a background image is added here.
+4. Input a custom title and author, and a cook-time greater than 0.
+5. Press "Add to Database" and ensure the text shows "Success!". You have added a recipe to the database.
+6. Go to the "View All Recipes" tab and click on your added recipes.
+7. Go to "Search Database" tab. Filter out ingredients that have butter by entering "butter" into the Text Field.
+8. Go to main and save your file.
+9. Close the app.
+10. Run the application and load the file in the main screen. All panels should have your custom recipe.
+11. Go to "View All Recipes" and click "Remove all user recipes" to remove your submissions.

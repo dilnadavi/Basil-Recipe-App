@@ -32,6 +32,8 @@ import model.Recipe;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
+// A class that is responsible for implementing all the Graphical User Interface features of the app.
+// All references have been cited above the relevant methods, all stated code belong to their respective owners.
 public class Graphics extends JFrame implements ActionListener {
     private JPanel panel1;
     private JPanel panel2;
@@ -61,6 +63,9 @@ public class Graphics extends JFrame implements ActionListener {
     private TableRowSorter<TableModel> sorter;
     private JTextField filter;
 
+    // MODIFIES: this, database
+    // EFFECTS: initializes main fields, builds the JFrame and all the tabbed panels on start-up and
+    //          throws FileNotFoundException if a file is not found
     public Graphics() throws FileNotFoundException {
         init();
         buildFrame();
@@ -71,6 +76,9 @@ public class Graphics extends JFrame implements ActionListener {
         loadPanel4();
     }
 
+    // MODIFIES: this, database
+    // EFFECTS: initializes the database, JSONReader and JSONWriter, and pre-loads the default recipes into
+    //          the database.
     public void init() {
         database = new Database();
         jsonWriter = new JsonWriter(JSON_STORE);
@@ -79,6 +87,9 @@ public class Graphics extends JFrame implements ActionListener {
         preloadRecipe();
     }
 
+    // ADAPTED FROM: UBC CPSC210's provided LabelChanger code.
+    // MODIFIES: this
+    // EFFECTS: sets all the settings of the JFrame.
     private void buildFrame() {
         this.setTitle("Basil");
         this.setSize(800, 600);
@@ -89,6 +100,9 @@ public class Graphics extends JFrame implements ActionListener {
         this.setVisible(true);
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets up the tabbed panel layout with four panels
+    // ADAPTED FROM: https://www.youtube.com/watch?v=RY3Hu4VYYVs&t=292s (YT: Career & Tech HQ)
     private void makeTabs() {
         panel1 = new JPanel();
         panel2 = new JPanel();
@@ -110,6 +124,10 @@ public class Graphics extends JFrame implements ActionListener {
         this.add(tabs);
     }
 
+    // MODIFIES: this
+    // EFFECTS: paints the main panel with load and save buttons and a menu picture
+    // REFERENCE: Button implementation adapted from https://www.youtube.com/watch?v=-IMys4PCkIA (YT: Bro Code) 
+    // Image implementation adapted from https://coderanch.com/t/499598/java/add-image-jPanel
     public void loadMainPanel() {
         JButton load = new JButton("LOAD FILE");
         load.setBounds(300, 10, 200, 40);
@@ -134,7 +152,10 @@ public class Graphics extends JFrame implements ActionListener {
         panel1.add(menuImage);
     }
 
-    // FROM TestTableSortFilter
+    // MODIFIES: this
+    // EFFECTS: Adds the components of panel two, with a JTable filter system
+    // ADAPTED FROM: https://stackoverflow.com/questions/22066387/how-to-search-an-element-in-a-jtable-java 
+    //               (Author: Paul Samsotha)
     public void loadPanel2() {
         String[] columns = { "Title", "Author", "Cooktime", "Ingredients" };
         ArrayList<Recipe> data = database.getRecipeDatabase();
@@ -161,6 +182,10 @@ public class Graphics extends JFrame implements ActionListener {
         filter.getDocument().addDocumentListener(new RecipeDocumentListener(filter, sorter));
     }
 
+    // EFFECTS: Converts the array list of recipes into a two dimensional object array for the table
+    // ADAPTED FROM: https://stackoverflow.com/questions/5501809/how-to-access-second-part-of-2d-array,
+    // https://sentry.io/answers/how-can-i-create-a-two-dimensional-array-in-javascript/, and
+    // https://runestone.academy/ns/books/published/apcsareview/Array2dBasics/a2dDAS.html
     public static Object[][] recipe2dArray(ArrayList<Recipe> recipes) {
         int rowNumber = recipes.size();
         Object[][] arrOfRecipes = new Object[rowNumber][4];
@@ -176,6 +201,10 @@ public class Graphics extends JFrame implements ActionListener {
         return arrOfRecipes;
     }
 
+    // MODIFIES: this
+    // EFFECTS: paints the panel three with a form to add personal recipe to database
+    // REFERENCE: Button and TextField implementation adapted from https://www.youtube.com/watch?v=Kmgo00avvEw (YT: Bro Code) 
+    // Image implementation adapted from https://coderanch.com/t/499598/java/add-image-jPanel
     public void loadPanel3() {
         getTlabel();
         getAuthorLabel();
@@ -199,6 +228,8 @@ public class Graphics extends JFrame implements ActionListener {
         panel3.add(menuImage);
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates the Directions text-field for user's recipe direction input
     private void getDirLabel() {
         JLabel dirLabel = new JLabel("Directions:");
         panel3.add(dirLabel);
@@ -208,6 +239,8 @@ public class Graphics extends JFrame implements ActionListener {
         panel3.add(directions);
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates the Ingredients text-field for user's recipe ingredient input
     private void getIngrLabel() {
         JLabel ingrLabel = new JLabel("Ingredients:");
         panel3.add(ingrLabel);
@@ -217,6 +250,8 @@ public class Graphics extends JFrame implements ActionListener {
         panel3.add(ingredients);
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates the cook-time text-field for user's recipe cook-time input
     private void getCookTimeLabel() {
         JLabel cookTimeLabel = new JLabel("Cooktime (mins):");
         panel3.add(cookTimeLabel);
@@ -226,6 +261,8 @@ public class Graphics extends JFrame implements ActionListener {
         panel3.add(cookTime);
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates the author text-field for user's recipe author input
     private void getAuthorLabel() {
         JLabel authorLabel = new JLabel("Author:");
         panel3.add(authorLabel);
@@ -235,6 +272,8 @@ public class Graphics extends JFrame implements ActionListener {
         panel3.add(author);
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates the Title text-field for user's recipe title input
     private void getTlabel() {
         JLabel tlabel = new JLabel("Title:");
         panel3.add(tlabel);
@@ -244,6 +283,7 @@ public class Graphics extends JFrame implements ActionListener {
         panel3.add(title);
     }
 
+    // EFFECTS: customizes the button's design
     public void buttonCustom(JButton button) {
         button.setBackground(Color.decode("#2C8F00"));
         button.setForeground(Color.WHITE);
@@ -251,6 +291,10 @@ public class Graphics extends JFrame implements ActionListener {
         button.setFont(new Font("Dialog Input", Font.BOLD, 10));
     }
 
+    
+    // ADAPTED FROM: https://www.youtube.com/watch?v=KOI1WbkKUpQ&t=433s (Author: Lazic B)
+    // MODIFIES: this
+    // EFFECTS: sets up the components in panel four, creating a list view of all the recipes
     public void loadPanel4() {
         JPanel panel = new JPanel();
         JList<Recipe> personalRecipes = new JList<>();
@@ -282,13 +326,17 @@ public class Graphics extends JFrame implements ActionListener {
 
     }
 
+    // MODIFIES: this
+    // EFFECTS: intializes DefaultListModel and sets it as the JTable's model
     private void initializePanel4(JList<Recipe> personalRecipes) {
         model = new DefaultListModel<>();
         personalRecipes.setModel(model);
     }
 
+    // ADAPTED FROM: UBC CPSC210's provided LabelChanger code.
+    // MODIFIES: this, database
+    // EFFECTS: interprets user actions from ActionListener and responds with respective event
     @Override
-    // This is the method that is called when the the JButton btn is clicked
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("addRecipe")) {
             newRecipe = new Recipe(title.getText(), author.getText(), Integer.parseInt(cookTime.getText()));
@@ -315,6 +363,8 @@ public class Graphics extends JFrame implements ActionListener {
         }
     }
 
+    // MODIFIES: this, database
+    // EFFECTS: adds the recipe to the database and model, refreshes panel2
     public void addRecipeGUI(Recipe recipe) {
         addIngredientsToRecipe(recipe);
         addDirectionsToRecipe(recipe);
@@ -324,6 +374,7 @@ public class Graphics extends JFrame implements ActionListener {
         loadPanel2();
     }
 
+    // EFFECTS: returns true if the inputted recipe has a customized title and author, and a cook-time > 0 mins.
     public boolean checkNewRecipe(Recipe recipe) {
         String author = recipe.getAuthor();
         String title = recipe.getTitle();
@@ -338,7 +389,7 @@ public class Graphics extends JFrame implements ActionListener {
         return true;
     }
 
-    // MODIFIES: this
+    // MODIFIES: this, database
     // EFFECTS: prompts user for listed ingredients, and adds the ingredients to
     // the recipe, with splitting based on ','
     public void addIngredientsToRecipe(Recipe recipe) {
@@ -348,7 +399,7 @@ public class Graphics extends JFrame implements ActionListener {
         }
     }
 
-    // MODIFIES: this
+    // MODIFIES: this, database
     // EFFECTS: prompts user for listed ingredients, and adds the ingredients to
     // the recipe, with splitting based on ','
     public void addDirectionsToRecipe(Recipe recipe) {
@@ -358,7 +409,7 @@ public class Graphics extends JFrame implements ActionListener {
         }
     }
 
-    // MODIFIES: this
+    // MODIFIES: this, database
     // EFFECTS: loads pre-loaded recipes from file into the database
     private void preloadRecipe() {
         try {
@@ -368,7 +419,7 @@ public class Graphics extends JFrame implements ActionListener {
         }
     }
 
-    // MODIFIES: this
+    // MODIFIES: this, database
     // EFFECTS: loads the previously saved Database from file
     private void loadDatabase() {
         try {

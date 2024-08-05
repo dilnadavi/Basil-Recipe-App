@@ -1,6 +1,5 @@
 package model;
 
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -63,11 +62,11 @@ public class TestRecipe {
     void testaddReccomend() {
         r1.addReccomend(true);
         r2.addReccomend(false);
-        //assertEquals(100, r1.getRating());
+        // assertEquals(100, r1.getRating());
         assertEquals(0, r2.getRating());
         r1.addReccomend(true);
         r2.addReccomend(true);
-        //assertEquals(100, r1.getRating());
+        // assertEquals(100, r1.getRating());
         assertEquals(50, r2.getRating());
         r1.addReccomend(false);
         r1.addReccomend(true);
@@ -188,11 +187,29 @@ public class TestRecipe {
     }
 
     @Test
+    void testPrintRecipe() {
+        Recipe recipe = new Recipe("Baked Egg", "Random", 1);
+        recipe.addIngredient("Butter");
+        recipe.addIngredient("Egg");
+        recipe.addDirection("Turn oven on.");
+        recipe.addDirection("Put into oven.");
+
+        String output = "<html><pre>Title: " + "Baked Egg" + "\nAuthor: " + "Random" + "\nCooktime: " + "1"
+                + "\n\nIngredients:" + "\nButter\nEgg" + "\n\nDirections:"
+                + "\nTurn oven on.\nPut into oven." + "\n<html><pre>";
+        
+        assertEquals("\nButter\nEgg", recipe.printList(recipe.getIngredients()));
+        assertEquals("\nTurn oven on.\nPut into oven.", recipe.printList(recipe.getDirections()));
+        assertEquals(output, recipe.printRecipe());
+        assertEquals("Baked Egg", recipe.toString());
+    }
+
+    @Test
     void testEqualsNull() {
         Recipe recipeOne = new Recipe(null, "Author", 1);
         Recipe sameRecipe = new Recipe(null, "Author", 1);
         Recipe differentRecipe = new Recipe("Title", "Author", 1);
-        
+
         assertTrue(recipeOne.equals(sameRecipe));
         assertFalse(recipeOne.equals(differentRecipe));
         recipeOne = new Recipe("Title", null, 1);
@@ -209,5 +226,5 @@ public class TestRecipe {
         }
 
     }
-    
+
 }
