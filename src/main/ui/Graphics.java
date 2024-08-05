@@ -64,10 +64,8 @@ public class Graphics extends JFrame implements ActionListener {
     private TableRowSorter<TableModel> sorter;
     private JTextField filter;
 
-    // MODIFIES: this, database
     // EFFECTS: initializes main fields, builds the JFrame and all the tabbed panels
-    // on start-up and
-    // throws FileNotFoundException if a file is not found
+    // on start-up and throws FileNotFoundException if a file is not found
     public Graphics() throws FileNotFoundException {
         init();
         buildFrame();
@@ -78,10 +76,9 @@ public class Graphics extends JFrame implements ActionListener {
         loadPanel4();
     }
 
-    // MODIFIES: this, database
+    // MODIFIES: this
     // EFFECTS: initializes the database, JSONReader and JSONWriter, and pre-loads
-    // the default recipes into
-    // the database.
+    // the default recipes into the database.
     public void init() {
         database = new Database();
         jsonWriter = new JsonWriter(JSON_STORE);
@@ -105,8 +102,7 @@ public class Graphics extends JFrame implements ActionListener {
 
     // MODIFIES: this
     // EFFECTS: sets up the tabbed panel layout with four panels
-    // ADAPTED FROM: https://www.youtube.com/watch?v=RY3Hu4VYYVs&t=292s (YT: Career
-    // & Tech HQ)
+    // ADAPTED FROM: https://www.youtube.com/watch?v=RY3Hu4VYYVs&t=292s (YT: Career & Tech HQ)
     private void makeTabs() {
         panel1 = new JPanel();
         panel2 = new JPanel();
@@ -220,8 +216,7 @@ public class Graphics extends JFrame implements ActionListener {
     }
 
     // MODIFIES: this
-    // EFFECTS: paints the panel three with a form to add personal recipe to
-    // database
+    // EFFECTS: paints panel three with a form to add personal recipe to database
     // REFERENCE: Button and TextField implementation adapted from
     // https://www.youtube.com/watch?v=Kmgo00avvEw (YT: Bro Code)
     // Image implementation adapted from
@@ -305,6 +300,7 @@ public class Graphics extends JFrame implements ActionListener {
         panel3.add(title);
     }
 
+    // MODIFIES: button
     // EFFECTS: customizes the button's design
     public void buttonCustom(JButton button) {
         button.setBackground(Color.decode("#2C8F00"));
@@ -313,11 +309,9 @@ public class Graphics extends JFrame implements ActionListener {
         button.setFont(new Font("Dialog Input", Font.BOLD, 10));
     }
 
-    // ADAPTED FROM: https://www.youtube.com/watch?v=KOI1WbkKUpQ&t=433s (Author:
-    // Lazic B)
+    // ADAPTED FROM: https://www.youtube.com/watch?v=KOI1WbkKUpQ&t=433s (Author: Lazic B)
     // MODIFIES: this
-    // EFFECTS: sets up the components in panel four, creating a list view of all
-    // the recipes
+    // EFFECTS: sets up the components in panel four, creating a list view of all the recipes
     public void loadPanel4() {
         JPanel panel = new JPanel();
         JList<Recipe> personalRecipes = new JList<>();
@@ -357,7 +351,7 @@ public class Graphics extends JFrame implements ActionListener {
     }
 
     // ADAPTED FROM: UBC CPSC210's provided LabelChanger code.
-    // MODIFIES: this, database
+    // MODIFIES: this
     // EFFECTS: interprets user actions from ActionListener and responds with
     // respective event
     @Override
@@ -387,7 +381,7 @@ public class Graphics extends JFrame implements ActionListener {
         }
     }
 
-    // MODIFIES: this, database
+    // MODIFIES: this, recipe
     // EFFECTS: adds the recipe to the database and model, refreshes panel2
     public void addRecipeGUI(Recipe recipe) {
         addIngredientsToRecipe(recipe);
@@ -414,7 +408,7 @@ public class Graphics extends JFrame implements ActionListener {
         return true;
     }
 
-    // MODIFIES: this, database
+    // MODIFIES: this, recipe
     // EFFECTS: prompts user for listed ingredients, and adds the ingredients to
     // the recipe, with splitting based on ','
     public void addIngredientsToRecipe(Recipe recipe) {
@@ -424,7 +418,7 @@ public class Graphics extends JFrame implements ActionListener {
         }
     }
 
-    // MODIFIES: this, database
+    // MODIFIES: this, recipe
     // EFFECTS: prompts user for listed ingredients, and adds the ingredients to
     // the recipe, with splitting based on ','
     public void addDirectionsToRecipe(Recipe recipe) {
@@ -434,7 +428,7 @@ public class Graphics extends JFrame implements ActionListener {
         }
     }
 
-    // MODIFIES: this, database
+    // MODIFIES: this
     // EFFECTS: loads pre-loaded recipes from file into the database
     private void preloadRecipe() {
         try {
@@ -444,7 +438,7 @@ public class Graphics extends JFrame implements ActionListener {
         }
     }
 
-    // MODIFIES: this, database
+    // MODIFIES: this
     // EFFECTS: loads the previously saved Database from file
     private void loadDatabase() {
         try {
