@@ -3,31 +3,25 @@ package ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.RowFilter;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -43,76 +37,38 @@ public class Graphics extends JFrame implements ActionListener {
     private JPanel panel2;
     private JPanel panel3;
     private JPanel panel4;
-    private JFrame frame;
+
     private Recipe newRecipe;
     private Database database;
+
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
     private JsonReader preReader;
-    private DefaultListModel<Recipe> model;
     private static final String JSON_STORE = "./data/database.json";
     private static final String JSON_STORE2 = "./data/preloaded.json";
+
+    private DefaultListModel<Recipe> model;
 
     private JTextField title;
     private JTextField author;
     private JTextField cookTime;
     private JTextField ingredients;
     private JTextField directions;
-    private JLabel message;
 
-    private DefaultTableModel sortermodel;
-    private JTable searchTable;
-    private TableRowSorter<TableModel> rowSorter;
-    private JTextField jtfFilter;
-    private JButton jbtFilter;
+    private JLabel message;
+    private JLabel loadMessage;
+
+    private TableRowSorter<TableModel> sorter;
+    private JTextField filter;
 
     public Graphics() throws FileNotFoundException {
         init();
-        this.setTitle("Basil");
-        this.setSize(800, 600);
-        this.setLocationRelativeTo(null);
-        this.setResizable(false);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLayout(null);
-
-        panel1 = new JPanel();
-        panel2 = new JPanel();
-        panel3 = new JPanel();
-        panel4 = new JPanel();
-
-        JTabbedPane tabbedpane = new JTabbedPane();
-        tabbedpane.setBounds(0, 0, 800, 600);
-        tabbedpane.add("Main", panel1);
-        tabbedpane.add("Search Database", panel2);
-        tabbedpane.add("Create Personal Recipe", panel3);
-        tabbedpane.add("View All Recipes", panel4);
-
-        this.add(tabbedpane);
-        this.setVisible(true);
-
-        mainMenu();
-        createRecipe();
-        testScroll();
-        addButtons();
-    }
-
-    public void mainMenu() {
-        JButton load = new JButton("Load File");
-        load.setBounds(300, 10, 200, 40);
-        panel1.add(load);
-        load.setActionCommand("loadRecipes");
-        load.addActionListener(this);
-
-        JButton save = new JButton("Save File");
-        save.setBounds(300, 10, 200, 40);
-        panel1.add(save);
-        save.setActionCommand("saveRecipes");
-        save.addActionListener(this);
-
-        JLabel image = new JLabel();
-        image.setIcon(new ImageIcon("./data/icon.png"));
-        image.setMinimumSize(new Dimension(10, 20));
-        panel1.add(image);
+        buildFrame();
+        makeTabs();
+        loadMainPanel();
+        loadPanel2();
+        loadPanel3();
+        loadPanel4();
     }
 
     public void init() {
@@ -123,97 +79,183 @@ public class Graphics extends JFrame implements ActionListener {
         preloadRecipe();
     }
 
+    private void buildFrame() {
+        this.setTitle("Basil");
+        this.setSize(800, 600);
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLayout(null);
+        this.setVisible(true);
+    }
+
+    private void makeTabs() {
+        panel1 = new JPanel();
+        panel2 = new JPanel();
+        panel3 = new JPanel();
+        panel4 = new JPanel();
+
+        panel1.setBackground(Color.WHITE);
+        panel2.setBackground(Color.WHITE);
+        panel3.setBackground(Color.WHITE);
+        panel4.setBackground(Color.WHITE);
+
+        JTabbedPane tabs = new JTabbedPane();
+        tabs.setBounds(0, 0, 800, 600);
+        tabs.add("Main", panel1);
+        tabs.add("Search Database", panel2);
+        tabs.add("Create Personal Recipe", panel3);
+        tabs.add("View All Recipes", panel4);
+
+        this.add(tabs);
+    }
+
+    public void loadMainPanel() {
+        JButton load = new JButton("LOAD FILE");
+        load.setBounds(300, 10, 200, 40);
+        buttonCustom(load);
+        panel1.add(load);
+        load.setActionCommand("loadRecipes");
+        load.addActionListener(this);
+
+        JButton save = new JButton("SAVE FILE");
+        save.setBounds(300, 10, 200, 40);
+        buttonCustom(save);
+        panel1.add(save);
+        save.setActionCommand("saveRecipes");
+        save.addActionListener(this);
+
+        loadMessage = new JLabel("No user data loaded in.");
+        panel1.add(loadMessage);
+
+        JLabel menuImage = new JLabel();
+        menuImage.setIcon(new ImageIcon("./data/basil menu.png"));
+        menuImage.setMaximumSize(new Dimension(10, 10));
+        panel1.add(menuImage);
+    }
+
     // FROM TestTableSortFilter
-    public void addButtons() {
-        String[] columnNames = { "Title", "Author", "Cooktime", "Ingredients" };
+    public void loadPanel2() {
+        String[] columns = { "Title", "Author", "Cooktime", "Ingredients" };
         ArrayList<Recipe> data = database.getRecipeDatabase();
         Object[][] objectArray = recipe2dArray(data);
-        DefaultTableModel sortermodel = new DefaultTableModel(objectArray, columnNames);
+
+        DefaultTableModel sortermodel = new DefaultTableModel(objectArray, columns);
         JTable searchTable = new JTable(sortermodel);
-        rowSorter = new TableRowSorter<>(searchTable.getModel());
-        jtfFilter = new JTextField(20);
-
-        searchTable.setRowSorter(rowSorter);
+        sorter = new TableRowSorter<>(sortermodel);
+        filter = new JTextField(20);
         JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(Color.WHITE);
+        searchTable.setOpaque(false);
 
+        searchTable.setRowSorter(sorter);
         panel.add(new JLabel("Search database for:"),
-                BorderLayout.WEST);
-        panel.add(jtfFilter, BorderLayout.CENTER);
+                BorderLayout.NORTH);
+        panel.add(filter, BorderLayout.CENTER);
 
         setLayout(new BorderLayout());
         add(panel, BorderLayout.SOUTH);
         panel.add(new JScrollPane(searchTable), BorderLayout.SOUTH);
         panel2.add(panel);
 
-        jtfFilter.getDocument().addDocumentListener(new RecipeDocumentListener(jtfFilter, rowSorter));
+        filter.getDocument().addDocumentListener(new RecipeDocumentListener(filter, sorter));
     }
 
     public static Object[][] recipe2dArray(ArrayList<Recipe> recipes) {
-        Object[][] arrOfRecipes = new Object[recipes.size()][4];
+        int rowNumber = recipes.size();
+        Object[][] arrOfRecipes = new Object[rowNumber][4];
 
-        for (int current = 0; current < recipes.size(); current++) {
-            Recipe recipe = recipes.get(current);
-            arrOfRecipes[current][0] = recipe.getTitle();
-            arrOfRecipes[current][1] = recipe.getAuthor();
-            arrOfRecipes[current][2] = recipe.getCookTime();
-            arrOfRecipes[current][3] = recipe.printList(recipe.getIngredients());
+        for (int currentRow = 0; currentRow < rowNumber; currentRow++) {
+            Recipe recipe = recipes.get(currentRow);
+            arrOfRecipes[currentRow][0] = recipe.getTitle();
+            arrOfRecipes[currentRow][1] = recipe.getAuthor();
+            arrOfRecipes[currentRow][2] = recipe.getCookTime();
+            arrOfRecipes[currentRow][3] = recipe.printList(recipe.getIngredients());
         }
 
         return arrOfRecipes;
     }
 
-    public void createRecipe() {
-        JLabel tlabel = new JLabel("Title:");
-        panel3.add(tlabel);
-        title = new JTextField(65);
-        title.setBounds(200, 200, 200, 200);
-        title.setText("Default Title");
-        panel3.add(title);
+    public void loadPanel3() {
+        getTlabel();
+        getAuthorLabel();
+        getCookTimeLabel();
+        getIngrLabel();
+        getDirLabel();
 
+        JButton add = new JButton("Add to Database");
+        add.setActionCommand("addRecipe");
+        add.setBounds(300, 10, 200, 40);
+        buttonCustom(add);
+        panel3.add(add);
+        add.addActionListener(this);
+
+        message = new JLabel("No recipe added.");
+        panel3.add(message);
+
+        JLabel menuImage = new JLabel();
+        menuImage.setIcon(new ImageIcon("./data/background.png"));
+        menuImage.setMaximumSize(new Dimension(10, 10));
+        panel3.add(menuImage);
+    }
+
+    private void getDirLabel() {
+        JLabel dirLabel = new JLabel("Directions:");
+        panel3.add(dirLabel);
+        directions = new JTextField(60);
+        directions.setBounds(200, 400, 200, 200);
+        directions.setText("Type directions separated by : and NO SPACES");
+        panel3.add(directions);
+    }
+
+    private void getIngrLabel() {
+        JLabel ingrLabel = new JLabel("Ingredients:");
+        panel3.add(ingrLabel);
+        ingredients = new JTextField(60);
+        ingredients.setBounds(200, 400, 200, 200);
+        ingredients.setText("Type ingredients separated by commas and NO SPACES");
+        panel3.add(ingredients);
+    }
+
+    private void getCookTimeLabel() {
+        JLabel cookTimeLabel = new JLabel("Cooktime (mins):");
+        panel3.add(cookTimeLabel);
+        cookTime = new JTextField(57);
+        cookTime.setBounds(200, 400, 200, 200);
+        cookTime.setText("0");
+        panel3.add(cookTime);
+    }
+
+    private void getAuthorLabel() {
         JLabel authorLabel = new JLabel("Author:");
         panel3.add(authorLabel);
         author = new JTextField(63);
         author.setBounds(200, 400, 200, 200);
         author.setText("Default Author");
         panel3.add(author);
-
-        JLabel cookTimeLabel = new JLabel("Cooktime:");
-        panel3.add(cookTimeLabel);
-        cookTime = new JTextField(60);
-        cookTime.setBounds(200, 400, 200, 200);
-        cookTime.setText("0");
-        panel3.add(cookTime);
-
-        JLabel ingrLabel = new JLabel("Ingredients:");
-        panel3.add(ingrLabel);
-        ingredients = new JTextField(60);
-        ingredients.setBounds(200, 400, 200, 200);
-        ingredients.setText("Type ingredients separated by commas");
-        panel3.add(ingredients);
-
-        JLabel dirLabel = new JLabel("Directions:");
-        panel3.add(dirLabel);
-        directions = new JTextField(60);
-        directions.setBounds(200, 400, 200, 200);
-        directions.setText("Type directions separated by : here");
-        panel3.add(directions);
-
-        JButton add = new JButton("Add to Database");
-        add.setActionCommand("addRecipe");
-        add.setBounds(300, 10, 200, 40);
-        panel3.add(add);
-        add.addActionListener(this);
-
-        message = new JLabel("No recipe added.");
-        panel3.add(message);
     }
 
-    public void testScroll() {
+    private void getTlabel() {
+        JLabel tlabel = new JLabel("Title:");
+        panel3.add(tlabel);
+        title = new JTextField(65);
+        title.setBounds(200, 200, 200, 200);
+        title.setText("Default Title");
+        panel3.add(title);
+    }
+
+    public void buttonCustom(JButton button) {
+        button.setBackground(Color.decode("#2C8F00"));
+        button.setForeground(Color.WHITE);
+        button.setBorderPainted(false);
+        button.setFont(new Font("Dialog Input", Font.BOLD, 10));
+    }
+
+    public void loadPanel4() {
         JPanel panel = new JPanel();
         JList<Recipe> personalRecipes = new JList<>();
-        model = new DefaultListModel<>();
+        initializePanel4(personalRecipes);
         JLabel label = new JLabel();
-        personalRecipes.setModel(model);
         JSplitPane splitPane = new JSplitPane();
 
         for (Recipe r : database.getRecipeDatabase()) {
@@ -227,15 +269,22 @@ public class Graphics extends JFrame implements ActionListener {
 
         splitPane.setLeftComponent(new JScrollPane(personalRecipes));
         splitPane.setRightComponent(panel);
+        panel.setMinimumSize(new Dimension(100, 100));
+        panel.setBackground(Color.WHITE);
         panel.add(label);
         panel4.add(splitPane);
 
-        JButton add = new JButton("Remove all user recipes.");
-        add.setActionCommand("removeRecipes");
-        add.setBounds(300, 10, 200, 40);
-        panel4.add(add);
-        add.addActionListener(this);
-        
+        JButton remove = new JButton("Remove All User Recipes");
+        remove.setActionCommand("removeRecipes");
+        buttonCustom(remove);
+        panel4.add(remove);
+        remove.addActionListener(this);
+
+    }
+
+    private void initializePanel4(JList<Recipe> personalRecipes) {
+        model = new DefaultListModel<>();
+        personalRecipes.setModel(model);
     }
 
     @Override
@@ -244,12 +293,7 @@ public class Graphics extends JFrame implements ActionListener {
         if (e.getActionCommand().equals("addRecipe")) {
             newRecipe = new Recipe(title.getText(), author.getText(), Integer.parseInt(cookTime.getText()));
             if (checkNewRecipe(newRecipe) && !model.contains(newRecipe)) {
-                addIngredientsToRecipe(newRecipe);
-                addDirectionsToRecipe(newRecipe);
-                database.addUserRecipeDatabase(newRecipe);
-                model.addElement(newRecipe);
-                panel2.removeAll();
-                addButtons();
+                addRecipeGUI(newRecipe);
                 message.setText("Success!");
             } else if (model.contains(newRecipe)) {
                 message.setText("Duplicate recipe!");
@@ -261,22 +305,33 @@ public class Graphics extends JFrame implements ActionListener {
         } else if (e.getActionCommand().equals("saveRecipes")) {
             saveDatabase();
         } else if (e.getActionCommand().equals("removeRecipes")) {
-            for (Recipe r: database.getUserRecipeDatabase()) {
+            for (Recipe r : database.getUserRecipeDatabase()) {
                 model.removeElement(r);
             }
             database.getRecipeDatabase().removeAll(database.getUserRecipeDatabase());
             database.resetDatabase();
             panel2.removeAll();
-            addButtons();
+            loadPanel2();
         }
+    }
+
+    public void addRecipeGUI(Recipe recipe) {
+        addIngredientsToRecipe(recipe);
+        addDirectionsToRecipe(recipe);
+        database.addUserRecipeDatabase(recipe);
+        model.addElement(recipe);
+        panel2.removeAll();
+        loadPanel2();
     }
 
     public boolean checkNewRecipe(Recipe recipe) {
         String author = recipe.getAuthor();
         String title = recipe.getTitle();
         int cookTime = recipe.getCookTime();
+        boolean titleCheck = (title.contains("Default Title") || title.length() == 0);
+        boolean authorCheck = (author.contains("Default Author") || author.length() == 0);
 
-        if (title.equals("Default Title") || author.equals("Default Author") || cookTime < 1) {
+        if (titleCheck || authorCheck || cookTime < 1) {
             return false;
         }
 
@@ -309,7 +364,7 @@ public class Graphics extends JFrame implements ActionListener {
         try {
             database = preReader.read();
         } catch (IOException e) {
-            //
+            System.out.println("Error in loading default data!");
         }
     }
 
@@ -324,10 +379,13 @@ public class Graphics extends JFrame implements ActionListener {
                     model.addElement(r);
                 }
             }
+            panel2.removeAll();
+            loadPanel2();
             repaint();
             revalidate();
+            loadMessage.setText("Loaded in files from" + JSON_STORE);
         } catch (IOException e) {
-            System.out.println("Unable to read from file: " + JSON_STORE);
+            loadMessage.setText("Unable to load files from" + JSON_STORE);
         }
     }
 
@@ -337,8 +395,9 @@ public class Graphics extends JFrame implements ActionListener {
             jsonWriter.open();
             jsonWriter.write(database);
             jsonWriter.close();
+            loadMessage.setText("Saved files to" + JSON_STORE);
         } catch (FileNotFoundException e) {
-            System.out.println("Unable to write to file: " + JSON_STORE);
+            loadMessage.setText("Unable to save files" + JSON_STORE);
         }
     }
 }

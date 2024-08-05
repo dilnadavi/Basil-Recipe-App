@@ -3,16 +3,6 @@
     "all recipes": [
         {
             "comments": [],
-            "raters": 0,
-            "directions": [],
-            "author": "Default Author",
-            "name": "Default Title",
-            "cook time": 0,
-            "ingredients": [],
-            "recommends": 0
-        },
-        {
-            "comments": [],
             "raters": 1,
             "directions": [
                 "Preheat the over to 325F.",
@@ -65,16 +55,70 @@
                 "Sprinkles"
             ],
             "recommends": 0
+        },
+        {
+            "comments": [],
+            "raters": 0,
+            "directions": [
+                "Type directions separated by ",
+                " and NO SPACES"
+            ],
+            "author": "An author",
+            "name": "A recipe",
+            "cook time": 2,
+            "ingredients": ["Type ingredients separated by commas and NO SPACES"],
+            "recommends": 0
+        },
+        {
+            "comments": [],
+            "raters": 0,
+            "directions": [
+                "direction1",
+                "direction2",
+                "direction3"
+            ],
+            "author": "Another author",
+            "name": "Another recipe",
+            "cook time": 10,
+            "ingredients": [
+                "ingredient1",
+                "ingredient2",
+                "ingredient3"
+            ],
+            "recommends": 0
         }
     ],
-    "personal recipes": [{
-        "comments": [],
-        "raters": 0,
-        "directions": [],
-        "author": "Default Author",
-        "name": "Default Title",
-        "cook time": 0,
-        "ingredients": [],
-        "recommends": 0
-    }]
+    "personal recipes": [
+        {
+            "comments": [],
+            "raters": 0,
+            "directions": [
+                "Type directions separated by ",
+                " and NO SPACES"
+            ],
+            "author": "An author",
+            "name": "A recipe",
+            "cook time": 2,
+            "ingredients": ["Type ingredients separated by commas and NO SPACES"],
+            "recommends": 0
+        },
+        {
+            "comments": [],
+            "raters": 0,
+            "directions": [
+                "direction1",
+                "direction2",
+                "direction3"
+            ],
+            "author": "Another author",
+            "name": "Another recipe",
+            "cook time": 10,
+            "ingredients": [
+                "ingredient1",
+                "ingredient2",
+                "ingredient3"
+            ],
+            "recommends": 0
+        }
+    ]
 }

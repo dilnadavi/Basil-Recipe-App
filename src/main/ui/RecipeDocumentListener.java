@@ -9,40 +9,36 @@ import javax.swing.table.TableRowSorter;
 import javax.swing.event.DocumentEvent;
 
 public class RecipeDocumentListener implements DocumentListener {
-    private TableRowSorter<TableModel> rowSorter;
-    private JTextField jtfFilter;
+    private TableRowSorter<TableModel> sorter;
+    private JTextField filter;
 
-    public RecipeDocumentListener(JTextField jtfFilter, TableRowSorter<TableModel> rowSorter) {
-        this.rowSorter = rowSorter;
-        this.jtfFilter = jtfFilter;
+    public RecipeDocumentListener(JTextField filter, TableRowSorter<TableModel> sorter) {
+        this.sorter = sorter;
+        this.filter = filter;
     }
     
     @Override
     public void insertUpdate(DocumentEvent e) {
-        String text = jtfFilter.getText();
-
-        if (text.trim().length() == 0) {
-            rowSorter.setRowFilter(null);
+        if (filter.getText().trim().length() != 0) {
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + filter.getText()));
         } else {
-            rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+            sorter.setRowFilter(null);
         }
     }
 
     @Override
     public void removeUpdate(DocumentEvent e) {
-        String text = jtfFilter.getText();
-
-        if (text.trim().length() == 0) {
-            rowSorter.setRowFilter(null);
+        if (filter.getText().trim().length() != 0) {
+            sorter.setRowFilter(RowFilter.regexFilter("(?i)" + filter.getText()));
         } else {
-            rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+            sorter.setRowFilter(null);
         }
     }
 
     @Override
     public void changedUpdate(DocumentEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods,
-                                                                       // choose Tools | Templates.
+        throw new UnsupportedOperationException("Unimplemented method 'changedUpdate'");
     }
 
 }
+
