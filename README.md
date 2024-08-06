@@ -44,9 +44,8 @@ For my personal project, I wish to make a recipe-geared application. In the appl
 2. Click "Create Personal Recipe", a background image is added here.
 3. Input a custom title and author, and a cook-time greater than 0.
 4. Press "Add to Database" and ensure the text shows "Success!". You have added a recipe to the database.
-5. Go to the "View All Recipes" tab and click on your added recipes.
+5. Go to the "View All Recipes" tab and click on your added recipes. Remove your recipe and add it again!
 6. Go to "Search Database" tab. Filter out ingredients that have butter by entering "butter" into the Text Field.
 7. Go to main and save your file.
 8. Close the app.
 9. Run the application and load the file in the main screen. All panels should have your custom recipe.
-10. Go to "View All Recipes" and click "Remove all user recipes" to remove your submissions.
