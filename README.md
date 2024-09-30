@@ -31,7 +31,7 @@ For my personal project, I wish to make a recipe-geared application. In the appl
 - "I want to be able to save the personal recipes and collections that I have created on my own volition."
 - "I want to be able to load the recipes and collections that I have saved previously from a file."
 
-## Instructions for Grader
+## Instructions
 - You can generate the first required action related to the user story "adding multiple Xs to a Y" by going to the "Create Personal Recipe" tab, inputting information, and pressing "Add to Database".
 - You can generate the second required action related to the user story "adding multiple Xs to a Y" by going to "Search Database" and entering a word in the text-field to filter added recipes.
 - EXTRA ACTION: Remove all user recipes by clicking "Remove all user recipes" in the "View All Recipes" tab.
