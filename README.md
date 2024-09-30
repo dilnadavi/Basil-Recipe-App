@@ -1,4 +1,4 @@
-# CPSC210: My Personal Project
+# Basil Project
 ## Prevent waste with Basil, a web-based application for cooks!
 For my personal project, I wish to make a recipe-geared application. In the application, one can *select an array of ingredients and find recipes that incorporate those ingredients with further filtering.* For example, if a user has some eggplants that are starting to mold in the fridge, they can use this application to find recipes that incorporate the eggplant. What's useful and unique about this application is that you can *specify which ingredients you do not have* or *specify the maximum cook time alloted* -- in this way, the user can easily find ways to salvage forgotten ingredients in the fridge.
 
